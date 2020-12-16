@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run debug" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+    <option name="command" value="run --package solver --bin solver" />
+    <option name="workingDirectory" value="file://$PROJECT_DIR$/rust" />
+    <option name="channel" value="DEFAULT" />
+    <option name="allFeatures" value="false" />
+    <option name="emulateTerminal" value="false" />
+    <option name="backtrace" value="SHORT" />
+    <envs>
+      <env name="RUSTFLAGS" value="-A dead_code -A unused_variables -A unused_mut -A unused_imports" />
+    </envs>
+    <option name="isRedirectInput" value="false" />
+    <option name="redirectInputPath" value="" />
+    <method v="2">
+      <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+    </method>
+  </configuration>
+</component>

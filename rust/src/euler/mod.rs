@@ -1,0 +1,16 @@
+pub mod euler84;
+pub mod euler85;
+pub mod euler86;
+pub mod euler87;
+pub mod euler88;
+pub mod euler89;
+pub mod euler90;
+pub mod euler91;
+pub mod euler92;
+pub mod euler93;
+pub mod euler94;
+pub mod euler95;
+pub mod euler96;
+pub mod euler97;
+pub mod euler98;
+pub mod euler99;
