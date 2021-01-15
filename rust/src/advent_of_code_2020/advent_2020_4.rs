@@ -1,6 +1,6 @@
 use crate::utils::read_lines;
-use std::collections::BTreeSet;
 use regex::Regex;
+use std::collections::BTreeSet;
 
 pub fn solve_1() -> usize {
     let ids = vec!["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
@@ -9,7 +9,6 @@ pub fn solve_1() -> usize {
     let mut keys: BTreeSet<&str> = BTreeSet::new();
     let mut count = 0;
     for line in &lines {
-        let trimmed = line.trim();
         if line.len() == 0 {
             if ids.iter().all(|id| keys.contains(id)) {
                 count += 1;
@@ -27,7 +26,8 @@ pub fn solve_1() -> usize {
 }
 
 pub fn solve_2() -> usize {
-    let hair_pattern: Regex = Regex::new(r"^#[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]$").unwrap();
+    let hair_pattern: Regex =
+        Regex::new(r"^#[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]$").unwrap();
     let ids = vec!["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
     let mut lines = read_lines("advent_2020/4.txt");
     lines.push("".into());
@@ -70,19 +70,17 @@ pub fn solve_2() -> usize {
                             false
                         }
                     }
-                    "hcl" => {
-                        hair_pattern.is_match(value)
-                    }
+                    "hcl" => hair_pattern.is_match(value),
                     "ecl" => {
                         let h = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
                         h.contains(&value)
                     }
-                    "pid" => {
-                        value.len() == 9 && value.chars().all(|c| c >= '0' && c <= '9')
-                    }
-                    _ => false
+                    "pid" => value.len() == 9 && value.chars().all(|c| c >= '0' && c <= '9'),
+                    _ => false,
                 };
-                if is_valid { keys.insert(key); }
+                if is_valid {
+                    keys.insert(key);
+                }
             }
         }
     }

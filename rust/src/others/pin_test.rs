@@ -1,7 +1,6 @@
-use std::pin::Pin;
 use std::marker::PhantomPinned;
+use std::pin::Pin;
 use std::ptr::NonNull;
-use std::ops::DerefMut;
 
 // This is a self-referential struct because the slice field points to the data field.
 // We cannot inform the compiler about that with a normal reference,
