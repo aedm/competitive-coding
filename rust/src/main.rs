@@ -8,7 +8,7 @@ use std::time::Instant;
 
 fn main() {
     let now = Instant::now();
-    let solution = advent_of_code_2020::advent_2020_7::solve_2();
+    let solution = others::fizzbuzz::solve();
     let elapsed = now.elapsed().as_micros();
     println!("Solution:\n{:?}", solution);
     println!("Runtime: {} sec", elapsed as f64 / 1000000.0);
