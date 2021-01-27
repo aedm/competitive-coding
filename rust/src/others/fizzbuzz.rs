@@ -5,7 +5,17 @@ pub fn solve_1() {
     let max = 950003;
     let mut x = 0;
     while x < max - 15 {
-        println!("{}\n{}\nFizz\n{}\nBuzz\nFizz\n{}\n{}\nFizz\nBuzz\n{}\nFizz\n{}\n{}\nFizzBuzz", x + 1, x + 2, x + 4, x + 7, x + 8, x + 11, x + 13, x + 14);
+        println!(
+            "{}\n{}\nFizz\n{}\nBuzz\nFizz\n{}\n{}\nFizz\nBuzz\n{}\nFizz\n{}\n{}\nFizzBuzz",
+            x + 1,
+            x + 2,
+            x + 4,
+            x + 7,
+            x + 8,
+            x + 11,
+            x + 13,
+            x + 14
+        );
         x += 15;
     }
 

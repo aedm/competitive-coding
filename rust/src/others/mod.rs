@@ -1,2 +1,2 @@
-pub mod pin_test;
 pub mod fizzbuzz;
+pub mod pin_test;
