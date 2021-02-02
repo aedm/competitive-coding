@@ -1,6 +1,3 @@
-use crate::utils::read_lines;
-use std::fmt::Debug;
-
 pub fn solve_1() {
     let max = 950003;
     let mut x = 0;
