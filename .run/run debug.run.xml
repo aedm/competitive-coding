@@ -9,8 +9,8 @@
     <envs>
       <env name="RUSTFLAGS" value="-A dead_code -A unused_variables -A unused_mut -A unused_imports" />
     </envs>
-    <option name="isRedirectInput" value="false" />
-    <option name="redirectInputPath" value="" />
+    <option name="isRedirectInput" value="true" />
+    <option name="redirectInputPath" value="$PROJECT_DIR$/rust/resources/scratch.txt" />
     <method v="2">
       <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
     </method>

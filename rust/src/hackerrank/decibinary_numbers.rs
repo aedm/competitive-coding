@@ -1,7 +1,8 @@
 use std::io::stdin;
+use std::cmp::{max, min};
 
-const MAX_SUM: u64 = 100_000_000_000_000_000u64;
-const MAX_BITS: usize = 63;
+const MAX_SUM: u64 = 10_000_000_000_000_000u64;
+const MAX_BITS: usize = 62;
 
 pub fn main() {
     solve().iter().for_each(|x| println!("{}", x));
@@ -30,7 +31,7 @@ fn solve_all(inputs: &Vec<u64>) -> Vec<String> {
                 (_, 0) => 0,
                 (s, b) => {
                     let exp = 1 << (b - 1);
-                    (0..=s).step_by(exp).map(|it| m[s - it][b - 1]).sum()
+                    (0..=min(s, 9*exp)).step_by(exp).map(|it| m[s - it][b - 1]).sum()
                 }
             }
         }
