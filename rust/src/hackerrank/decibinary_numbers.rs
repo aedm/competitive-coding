@@ -22,6 +22,7 @@ pub fn solve() -> Vec<String> {
 
 fn solve_all(inputs: &Vec<u64>) -> Vec<String> {
     let mut m = Vec::<[u64; MAX_BITS]>::new();
+    let mut sums= Vec::<u64>::new();
     let mut sum = 0;
     for i in 0.. {
         m.push([0u64; MAX_BITS]);
@@ -36,24 +37,25 @@ fn solve_all(inputs: &Vec<u64>) -> Vec<String> {
             }
         }
         sum += m[i][MAX_BITS - 1];
+        sums.push(sum);
         if sum > MAX_SUM {
             break;
         }
     }
     m[0][0] = 0;
-    inputs.iter().map(|x| find(*x, &m)).collect()
+
+    inputs.iter().map(|x| find(*x, &m, &sums)).collect()
 }
 
-fn find(input: u64, m: &[[u64; MAX_BITS]]) -> String {
+fn find(input: u64, m: &[[u64; MAX_BITS]], sums: &[u64]) -> String {
     if input == 1 { return "0".to_string(); }
-    let mut x = input;
-    let mut bit_sum = 0u64;
-    loop {
-        let p = m[bit_sum as usize][MAX_BITS - 1];
-        if x <= p { break; }
-        x -= m[bit_sum as usize][MAX_BITS - 1];
-        bit_sum += 1;
-    }
+
+    let v = sums.binary_search(&input);
+    let mut bit_sum: u64 = match v {
+        Ok(x) => x,
+        Err(x) => x,
+    } as u64;
+    let mut x = input - sums[bit_sum as usize-1];
     let mut result = vec![];
     for bit in (1..MAX_BITS).rev() {
         let pot = 1 << (bit - 1);
