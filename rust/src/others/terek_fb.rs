@@ -18,6 +18,20 @@ fn scan(s: &str, c: char) -> usize {
     s.chars().take_while(|x| *x == c).count()
 }
 
+
+pub fn solve_2b(days: &str, free: isize) {
+    let (mut l, mut mx, mut s) = (free, 0, 0);
+    for (i, c) in days.char_indices() {
+        if c == 'D' { l -= 1; }
+        while l < 0 {
+            if days.as_bytes()[s] as char == 'D' { l += 1; }
+            s += 1;
+        }
+        mx = max(mx, i - s + 1);
+    }
+    println!("Maximum vacation is {} days long.", mx);
+}
+
 pub fn solve_2(days: &str, free: isize) {
     let mut weeks = vec![];
     let mut q = days;
@@ -53,6 +67,7 @@ pub fn solve_2(days: &str, free: isize) {
     }
 
     println!("Maximum vacation is {} days long.", vacation_max);
+    solve_2b(days, free);
 }
 
 pub fn main() {
@@ -60,5 +75,5 @@ pub fn main() {
     solve_1(&k);
 
     let days = "DDWWDDWWWWDDDWWWWDWDDDDDD";
-    solve_2(&days, 11);
+    solve_2(&days, 1);
 }
