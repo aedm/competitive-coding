@@ -19,25 +19,25 @@ fn scan(s: &str, c: char) -> usize {
 }
 
 
-pub fn solve_2b(days: &str, free: isize) {
-    let (mut l, mut mx, mut s) = (free, 0, 0);
-    for (i, c) in days.char_indices() {
-        if c == 'D' { l -= 1; }
-        while l < 0 {
-            if days.as_bytes()[s] as char == 'D' { l += 1; }
-            s += 1;
+pub fn solve_2b(days: &[char], free: i64) {
+    let (mut available, mut solution, mut start) = (free, 0, 0);
+    for (index, day) in days.iter().enumerate() {
+        available -= (*day == 'W') as i64;
+        while available < 0 {
+            available += (days[start] == 'W') as i64;
+            start += 1;
         }
-        mx = max(mx, i - s + 1);
+        solution = max(solution, index - start + 1);
     }
-    println!("Maximum vacation is {} days long.", mx);
+    println!("Maximum vacation is {} days long.", solution);
 }
 
 pub fn solve_2(days: &str, free: isize) {
     let mut weeks = vec![];
     let mut q = days;
     while q.len() > 0 {
-        let weekend = scan(q, 'W');
-        let work_day = scan(&q[weekend..], 'D');
+        let weekend = scan(q, 'H');
+        let work_day = scan(&q[weekend..], 'W');
         q = &q[(weekend + work_day)..];
         weeks.push((weekend as isize, work_day as isize));
     }
@@ -67,13 +67,13 @@ pub fn solve_2(days: &str, free: isize) {
     }
 
     println!("Maximum vacation is {} days long.", vacation_max);
-    solve_2b(days, free);
 }
 
 pub fn main() {
     let k: Vec<Vec<i32>> = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9], vec![1, 2, 3]];
     solve_1(&k);
 
-    let days = "DDWWDDWWWWDDDWWWWDWDDDDDD";
+    let days = "WWHHWWHHHHWWWHHHHWHWWWWWW";
     solve_2(&days, 1);
+    solve_2b(&days.chars().collect::<Vec<_>>(), 1);
 }
