@@ -3,11 +3,14 @@
     <option name="command" value="run --package solver --bin solver" />
     <option name="workingDirectory" value="file://$PROJECT_DIR$/rust" />
     <option name="channel" value="DEFAULT" />
+    <option name="requiredFeatures" value="true" />
     <option name="allFeatures" value="false" />
     <option name="emulateTerminal" value="false" />
+    <option name="withSudo" value="false" />
     <option name="backtrace" value="SHORT" />
     <envs>
       <env name="RUSTFLAGS" value="-A dead_code -A unused_variables -A unused_mut -A unused_imports" />
+      <env name="QPA_API_TOKEN" value="QZKcn8mCAVu3xIcq" />
     </envs>
     <option name="isRedirectInput" value="true" />
     <option name="redirectInputPath" value="$PROJECT_DIR$/rust/resources/scratch.txt" />

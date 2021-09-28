@@ -1,7 +1,9 @@
-use std::cmp::{min, max};
+use std::cmp::{max, min};
 
 pub fn solve_1(matrix: &[Vec<i32>]) {
-    if matrix.len() == 0 { return; }
+    if matrix.len() == 0 {
+        return;
+    }
     let width = matrix[0].len();
     let max_i = matrix.len() + width - 2;
     for i in 0..=max_i {
@@ -17,7 +19,6 @@ pub fn solve_1(matrix: &[Vec<i32>]) {
 fn scan(s: &str, c: char) -> usize {
     s.chars().take_while(|x| *x == c).count()
 }
-
 
 pub fn solve_2b(days: &[char], free: i64) {
     let (mut available, mut solution, mut start) = (free, 0, 0);
@@ -49,14 +50,28 @@ pub fn solve_2(days: &str, free: isize) {
     for first_week in 0..weeks.len() {
         while until_week < weeks.len() {
             let next = weeks[until_week];
-            if work_days_taken + next.1 > free { break; }
+            if work_days_taken + next.1 > free {
+                break;
+            }
             work_days_taken += next.1;
             days_between += next.1 + next.0;
             until_week += 1;
         }
-        let mut days_before = if first_week == 0 { 0 } else { weeks[first_week - 1].1 };
-        let days_after = if until_week < weeks.len() { weeks[until_week].1 } else { 0 };
-        let next_weekend = if until_week < weeks.len() { weeks[until_week].0 } else { 0 };
+        let mut days_before = if first_week == 0 {
+            0
+        } else {
+            weeks[first_week - 1].1
+        };
+        let days_after = if until_week < weeks.len() {
+            weeks[until_week].1
+        } else {
+            0
+        };
+        let next_weekend = if until_week < weeks.len() {
+            weeks[until_week].0
+        } else {
+            0
+        };
         let plus_days = min(days_before + days_after, free - work_days_taken);
         let vacation_length = days_between + plus_days + next_weekend;
         vacation_max = max(vacation_max, vacation_length);
