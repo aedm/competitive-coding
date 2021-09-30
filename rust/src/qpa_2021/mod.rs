@@ -5,13 +5,14 @@ use serde_json::{json, to_string, to_string_pretty, Value};
 
 pub mod qpa2021_1;
 mod qpa2021_2;
+mod qpa2021_3;
 
 pub async fn qpa_main() -> Result<()> {
-    let problem = ("maze", qpa2021_2::solve);
+    let problem = ("king-pinned", qpa2021_3::solve);
 
     let input = serde_json::from_str(&read_scratch_file()).unwrap();
     let output = problem.1(&input);
-    println!("Output:\n{}", to_string_pretty(&output)?);
+    println!("Output:\n{}", to_string(&output)?);
     return Ok(());
 
     let submission: Value = call_api(
