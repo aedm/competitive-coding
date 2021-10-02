@@ -6,9 +6,10 @@ use serde_json::{json, to_string, to_string_pretty, Value};
 pub mod qpa2021_1;
 mod qpa2021_2;
 mod qpa2021_3;
+mod qpa2021_4;
 
 pub async fn qpa_main() -> Result<()> {
-    let problem = ("king-pinned", qpa2021_3::solve);
+    let problem = ("barrel", qpa2021_4::solve);
 
     let input = serde_json::from_str(&read_scratch_file()).unwrap();
     let output = problem.1(&input);
