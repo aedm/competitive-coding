@@ -2,6 +2,7 @@ use crate::utils::read_scratch_file;
 use anyhow::Result;
 use reqwest::Method;
 use serde_json::{json, to_string, to_string_pretty, Value};
+use std::time::Instant;
 
 pub mod qpa2021_1;
 mod qpa2021_2;
@@ -12,8 +13,11 @@ pub async fn qpa_main() -> Result<()> {
     let problem = ("barrel", qpa2021_4::solve);
 
     let input = serde_json::from_str(&read_scratch_file()).unwrap();
+    let now = Instant::now();
     let output = problem.1(&input);
     println!("Output:\n{}", to_string(&output)?);
+    let elapsed = now.elapsed().as_micros();
+    println!("Runtime2: {} sec", elapsed as f64 / 1000000.0);
     return Ok(());
 
     let submission: Value = call_api(
