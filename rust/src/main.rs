@@ -3,15 +3,18 @@ mod euler;
 mod hackerrank;
 mod ioi;
 mod others;
+mod qpa_2021;
 mod utils;
 
 use std::time::Instant;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let now = Instant::now();
     // hackerrank::decibinary_numbers::main();
-    let solution = others::terek_fb::main();
+    // let solution = qpa_2021::qpa_main().await;
+    let solution = qpa_2021::qpa_main().await;
     let elapsed = now.elapsed().as_micros();
-    println!("Solution:\n{:?}", solution);
+    // println!("Solution:\n{:?}", solution);
     println!("Runtime: {} sec", elapsed as f64 / 1000000.0);
 }
