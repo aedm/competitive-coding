@@ -1,11 +1,11 @@
 mod advent_of_code_2020;
+mod advent_of_code_2021;
 mod euler;
 mod hackerrank;
 mod ioi;
 mod others;
 mod qpa_2021;
 mod utils;
-mod advent_of_code_2021;
 
 use std::time::Instant;
 
