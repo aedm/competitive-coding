@@ -6,7 +6,7 @@ pub fn solve_1() -> i64 {
     let mut horizontal = 0;
     for line in lines {
         let s: Vec<_> = line.split(' ').collect();
-        let v = s[1].parse::<i64>().unwrap();
+        let v: i64 = s[1].parse().unwrap();
         match s[0] {
             "up" => depth -= v,
             "down" => depth += v,
@@ -24,7 +24,7 @@ pub fn solve_2() -> i64 {
     let mut aim = 0;
     for line in lines {
         let s: Vec<_> = line.split(' ').collect();
-        let v = s[1].parse::<i64>().unwrap();
+        let v: i64 = s[1].parse().unwrap();
         match s[0] {
             "up" => aim -= v,
             "down" => aim += v,
