@@ -20,17 +20,15 @@ pub fn solve(diagonals: bool) -> i64 {
         .collect();
     let mut e = vec![];
     for r in rows {
-        if r[0] == r[2] {
-            let (a, b) = order_swap(r[1], r[3]);
-            (a..=b).for_each(|n| e.push((n, r[0])));
-        } else if r[1] == r[3] {
-            let (a, b) = order_swap(r[0], r[2]);
-            (a..=b).for_each(|n| e.push((r[1], n)));
+        if r[0] == r[2] || r[1] == r[3] {
+            let (x1, x2) = order_swap(r[0], r[2]);
+            let (y1, y2) = order_swap(r[1], r[3]);
+            (y1..=y2).cartesian_product(x1..=x2).for_each(|c| e.push(c));
         } else if diagonals {
             let (a, b) = order_swap(r[0], r[2]);
             let dx = (r[2] > r[0]) as i64 * 2 - 1;
             let dy = (r[3] > r[1]) as i64 * 2 - 1;
-            (0..=b - a).for_each(|n| e.push((r[1] + n * dy, r[0] + n * dx)));
+            (0..=(b - a)).for_each(|n| e.push((r[1] + n * dy, r[0] + n * dx)));
         }
     }
     e.sort();
