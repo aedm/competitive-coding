@@ -1,4 +1,5 @@
 use crate::utils::read_lines;
+use itertools::Itertools;
 
 pub fn solve(first: bool) -> i64 {
     let lines = read_lines("advent_2021/4.txt");
@@ -9,44 +10,32 @@ pub fn solve(first: bool) -> i64 {
                 .map(|x| {
                     lines[i * 6 + 2 + x]
                         .split(' ')
-                        .map(|x| x.parse())
-                        .flatten()
+                        .filter_map(|x| x.parse().ok())
                         .collect::<Vec<i64>>()
                 })
                 .collect::<Vec<Vec<i64>>>()
         })
         .collect();
 
-    let mut bcount = boards.len();
+    let mut boards_left = boards.len();
     let mut hits = vec![vec![vec![false; 5]; 5]; boards.len()];
-    let mut bwon = vec![false; boards.len()];
+    let mut is_board_finished = vec![false; boards.len()];
 
     for num in nums {
         for (i, b) in boards.iter().enumerate() {
-            if bwon[i] {
-                continue;
-            }
-            for y in 0..5 {
-                for x in 0..5 {
-                    if b[y][x] == num {
-                        hits[i][y][x] = true;
-                        if (0..5).all(|q| hits[i][q][x]) || (0..5).all(|q| hits[i][y][q]) {
-                            bwon[i] = true;
-                            bcount -= 1;
-                            if first || bcount == 0 {
-                                let s: i64 = b
-                                    .iter()
-                                    .enumerate()
-                                    .map(|(qy, row)| {
-                                        row.iter()
-                                            .enumerate()
-                                            .filter(|&(qx, n)| !hits[i][qy][qx])
-                                            .map(|(qx, n)| n)
-                                            .sum::<i64>()
-                                    })
-                                    .sum();
-                                return s * num;
-                            }
+            if !is_board_finished[i] {
+                if let Some((x, y)) = ((0..5).cartesian_product(0..5)).find(|(x, y)| b[y][x] == num)
+                {
+                    hits[i][y][x] = true;
+                    if (0..5).all(|q| hits[i][q][x]) || (0..5).all(|q| hits[i][y][q]) {
+                        is_board_finished[i] = true;
+                        boards_left -= 1;
+                        if first || boards_left == 0 {
+                            let score = (0..5)
+                                .cartesian_product(0..5)
+                                .filter_map(|(x, y)| (!hits[i][y][x]).then(|| b[y][x]))
+                                .sum::<i64>();
+                            return score * num;
                         }
                     }
                 }
