@@ -17,25 +17,24 @@ pub fn solve(diagonals: bool) -> i64 {
                 .collect::<Vec<i64>>()
         })
         .collect();
-    let mut e = vec![];
+    let mut fields = vec![];
     for r in rows {
         if r[0] == r[2] || r[1] == r[3] {
             let (x1, x2) = order_swap(r[0], r[2]);
             let (y1, y2) = order_swap(r[1], r[3]);
-            (y1..=y2).cartesian_product(x1..=x2).for_each(|c| e.push(c));
+            ((y1..=y2).cartesian_product(x1..=x2)).for_each(|c| fields.push(c));
         } else if diagonals {
             let (a, b) = order_swap(r[0], r[2]);
             let dx = (r[2] > r[0]) as i64 * 2 - 1;
             let dy = (r[3] > r[1]) as i64 * 2 - 1;
-            (0..=(b - a)).for_each(|n| e.push((r[1] + n * dy, r[0] + n * dx)));
+            (0..=(b - a)).for_each(|n| fields.push((r[1] + n * dy, r[0] + n * dx)));
         }
     }
-    e.sort();
-    e.iter()
-        .group_by(|&&e| e)
+    fields.sort();
+    let groups = fields.iter().group_by(|&&e| e);
+    groups
         .into_iter()
-        .map(|(key, items)| (items.count() >= 2).then(|| Some(key)))
-        .flatten()
+        .filter_map(|(key, items)| (items.count() >= 2).then(|| Some(key)))
         .count() as i64
 }
 
