@@ -18,22 +18,22 @@ pub fn solve(first: bool) -> i64 {
         .collect();
 
     let mut boards_left = boards.len();
-    let mut hits = vec![vec![vec![false; 5]; 5]; boards.len()];
+    let mut hits = vec![[[false; 5]; 5]; boards.len()];
     let mut is_board_finished = vec![false; boards.len()];
 
     for num in nums {
-        for (i, b) in boards.iter().enumerate() {
+        for (i, board) in boards.iter().enumerate() {
             if !is_board_finished[i] {
-                if let Some((x, y)) = ((0..5).cartesian_product(0..5)).find(|(x, y)| b[y][x] == num)
+                if let Some((x, y)) =
+                    ((0..5).cartesian_product(0..5)).find(|&(x, y)| board[y][x] == num)
                 {
                     hits[i][y][x] = true;
                     if (0..5).all(|q| hits[i][q][x]) || (0..5).all(|q| hits[i][y][q]) {
                         is_board_finished[i] = true;
                         boards_left -= 1;
                         if first || boards_left == 0 {
-                            let score = (0..5)
-                                .cartesian_product(0..5)
-                                .filter_map(|(x, y)| (!hits[i][y][x]).then(|| b[y][x]))
+                            let score = ((0..5).cartesian_product(0..5))
+                                .filter_map(|(x, y)| (!hits[i][y][x]).then(|| board[y][x]))
                                 .sum::<i64>();
                             return score * num;
                         }
