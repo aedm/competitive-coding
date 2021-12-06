@@ -1,7 +1,6 @@
 use crate::utils::read_lines;
 use itertools::Itertools;
 use std::cmp::{max, min};
-use std::collections::BTreeSet;
 
 fn order_swap(x: i64, y: i64) -> (i64, i64) {
     (min(x, y), max(x, y))
