@@ -5,7 +5,7 @@ fn solve(days: i64) -> i64 {
     let mut nums: Vec<i64> = lines[0].split(',').map(|x| x.parse().unwrap()).collect();
     let mut k = vec![0; 11];
     nums.iter().for_each(|&x| k[x as usize] += 1);
-    for i in 0..days {
+    for _ in 0..days {
         k[9] += k[0];
         k[7] += k[0];
         (1..11).for_each(|o| k[o - 1] = k[o]);
