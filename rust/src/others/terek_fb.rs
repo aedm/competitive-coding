@@ -57,21 +57,9 @@ pub fn solve_2(days: &str, free: isize) {
             days_between += next.1 + next.0;
             until_week += 1;
         }
-        let mut days_before = if first_week == 0 {
-            0
-        } else {
-            weeks[first_week - 1].1
-        };
-        let days_after = if until_week < weeks.len() {
-            weeks[until_week].1
-        } else {
-            0
-        };
-        let next_weekend = if until_week < weeks.len() {
-            weeks[until_week].0
-        } else {
-            0
-        };
+        let mut days_before = if first_week == 0 { 0 } else { weeks[first_week - 1].1 };
+        let days_after = if until_week < weeks.len() { weeks[until_week].1 } else { 0 };
+        let next_weekend = if until_week < weeks.len() { weeks[until_week].0 } else { 0 };
         let plus_days = min(days_before + days_after, free - work_days_taken);
         let vacation_length = days_between + plus_days + next_weekend;
         vacation_max = max(vacation_max, vacation_length);
