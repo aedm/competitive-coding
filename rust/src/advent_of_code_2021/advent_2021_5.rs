@@ -11,10 +11,7 @@ pub fn solve(diagonals: bool) -> i64 {
     let rows: Vec<_> = lines
         .iter()
         .map(|x| {
-            x.replace(" -> ", ",")
-                .split(',')
-                .map(|s| s.parse().unwrap())
-                .collect::<Vec<i64>>()
+            x.replace(" -> ", ",").split(',').map(|s| s.parse().unwrap()).collect::<Vec<i64>>()
         })
         .collect();
     let mut fields = vec![];
@@ -32,10 +29,8 @@ pub fn solve(diagonals: bool) -> i64 {
     }
     fields.sort();
     let groups = fields.iter().group_by(|&&e| e);
-    groups
-        .into_iter()
-        .filter_map(|(key, items)| (items.count() >= 2).then(|| Some(key)))
-        .count() as i64
+    groups.into_iter().filter_map(|(key, items)| (items.count() >= 2).then(|| Some(key))).count()
+        as i64
 }
 
 pub fn solve_1() -> i64 {

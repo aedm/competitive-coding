@@ -16,9 +16,7 @@ pub fn solve(v: &Value) -> Value {
 
     let (kx, ky) = (0..size)
         .find_map(|x| {
-            (0..size)
-                .find(|y| input.room[*y as usize][x as usize] == 6)
-                .and_then(|y| Some((x, y)))
+            (0..size).find(|y| input.room[*y as usize][x as usize] == 6).and_then(|y| Some((x, y)))
         })
         .unwrap();
 
@@ -78,12 +76,8 @@ pub fn solve(v: &Value) -> Value {
                 4 => [(1, 1), (1, -1), (-1, 1), (-1, -1)]
                     .iter()
                     .for_each(|(dx, dy)| step(x, y, *dx, *dy, false, false)),
-                5 => all_dir
-                    .iter()
-                    .for_each(|(dx, dy)| step(x, y, *dx, *dy, false, false)),
-                7 => all_dir
-                    .iter()
-                    .for_each(|(dx, dy)| step(x, y, *dx, *dy, true, true)),
+                5 => all_dir.iter().for_each(|(dx, dy)| step(x, y, *dx, *dy, false, false)),
+                7 => all_dir.iter().for_each(|(dx, dy)| step(x, y, *dx, *dy, true, true)),
                 _ => {}
             }
         }

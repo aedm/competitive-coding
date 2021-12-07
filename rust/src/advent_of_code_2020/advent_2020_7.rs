@@ -48,11 +48,7 @@ fn find_gold<'a>(
     if let Some(x) = has_gold.get(bag) {
         return *x;
     }
-    let has = deps
-        .get(bag)
-        .unwrap()
-        .iter()
-        .any(|d| find_gold(d.1, has_gold, deps));
+    let has = deps.get(bag).unwrap().iter().any(|d| find_gold(d.1, has_gold, deps));
     has_gold.insert(bag, has);
     has
 }

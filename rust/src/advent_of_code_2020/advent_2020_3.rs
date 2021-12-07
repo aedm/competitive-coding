@@ -14,13 +14,7 @@ pub fn solve_2() -> usize {
         .iter()
         .map(|(dx, dy)| {
             (0..lines.len() / dy)
-                .filter(|i| {
-                    lines[i * dy]
-                        .chars()
-                        .nth(i * dx % lines[i * dy].len())
-                        .unwrap()
-                        == '#'
-                })
+                .filter(|i| lines[i * dy].chars().nth(i * dx % lines[i * dy].len()).unwrap() == '#')
                 .count()
         })
         .product()

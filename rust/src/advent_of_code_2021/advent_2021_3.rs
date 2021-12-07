@@ -15,15 +15,9 @@ pub fn solve_1() -> i64 {
 fn find_value(lines: &[String], flip: bool) -> i64 {
     let mut v: Vec<_> = (0..lines.len()).collect();
     for i in 0..lines[0].len() {
-        let ones = v
-            .iter()
-            .filter(|&&x| lines[x].as_bytes()[i] == b'1')
-            .count();
+        let ones = v.iter().filter(|&&x| lines[x].as_bytes()[i] == b'1').count();
         let more = b'0' + ((ones >= v.len() - ones) ^ flip) as u8;
-        v = v
-            .into_iter()
-            .filter(|&x| lines[x].as_bytes()[i] == more)
-            .collect();
+        v = v.into_iter().filter(|&x| lines[x].as_bytes()[i] == more).collect();
         if v.len() == 1 {
             return i64::from_str_radix(&lines[v[0]], 2).unwrap();
         }

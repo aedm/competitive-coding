@@ -16,11 +16,7 @@ pub fn solve(v: &Value) -> Value {
     let barrels: Vec<_> = input.barrels.iter().map(|b| (b[0], b[1])).collect();
     let mut order: Vec<_> = (0..barrels.len()).collect();
     order.sort_by(|&a, &b| {
-        barrels[a]
-            .0
-            .cmp(&barrels[b].0)
-            .reverse()
-            .then(barrels[a].1.cmp(&barrels[b].1).reverse())
+        barrels[a].0.cmp(&barrels[b].0).reverse().then(barrels[a].1.cmp(&barrels[b].1).reverse())
     });
 
     let mut min: Vec<(i64, isize)> = Vec::with_capacity(barrels.len());

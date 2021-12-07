@@ -6,13 +6,9 @@ pub fn solve(first: bool) -> i64 {
     let nums: Vec<i64> = lines[0].split(',').map(|x| x.parse().unwrap()).collect();
     let boards: Vec<_> = (0..((lines.len() - 1) / 6))
         .map(|i| {
-            (0..5)
-                .map(|x| {
-                    lines[i * 6 + 2 + x]
-                        .split(' ')
-                        .filter_map(|x| x.parse().ok())
-                        .collect::<Vec<i64>>()
-                })
+            lines[i * 6 + 2..i * 6 + 7]
+                .iter()
+                .map(|l| l.split(' ').filter_map(|x| x.parse().ok()).collect::<Vec<i64>>())
                 .collect::<Vec<Vec<i64>>>()
         })
         .collect();
@@ -25,7 +21,7 @@ pub fn solve(first: bool) -> i64 {
         for (i, board) in boards.iter().enumerate() {
             if !is_board_finished[i] {
                 if let Some((x, y)) =
-                    ((0..5).cartesian_product(0..5)).find(|&(x, y)| board[y][x] == num)
+                    (0..5).cartesian_product(0..5).find(|&(x, y)| board[y][x] == num)
                 {
                     hits[i][y][x] = true;
                     if (0..5).all(|q| hits[i][q][x]) || (0..5).all(|q| hits[i][y][q]) {
