@@ -5,15 +5,13 @@ use std::cmp::{max, min};
 fn order_swap(x: i64, y: i64) -> (i64, i64) {
     (min(x, y), max(x, y))
 }
-
+ł
 pub fn solve(diagonals: bool) -> i64 {
     let lines = read_lines("advent_2021/5.txt");
-    let rows: Vec<_> = lines
+    let rows = lines
         .iter()
-        .map(|x| {
-            x.replace(" -> ", ",").split(',').map(|s| s.parse().unwrap()).collect::<Vec<i64>>()
-        })
-        .collect();
+        .map(|x| x.replace(" -> ", ",").split(',').map(|s| s.parse::<i64>().unwrap()).collect_vec())
+        .collect_vec();
     let mut fields = vec![];
     for r in rows {
         if r[0] == r[2] || r[1] == r[3] {
@@ -28,9 +26,7 @@ pub fn solve(diagonals: bool) -> i64 {
         }
     }
     fields.sort();
-    let groups = fields.iter().group_by(|&&e| e);
-    groups.into_iter().filter_map(|(key, items)| (items.count() >= 2).then(|| Some(key))).count()
-        as i64
+    fields.iter().group_by(|&&e| e).into_iter().map(|x| (x.1.count() >= 2) as i64).sum()
 }
 
 pub fn solve_1() -> i64 {
