@@ -33,7 +33,7 @@ pub fn solve_1() -> i64 {
 pub fn solve_2() -> i64 {
     let lines = read_lines("advent_2021/10.txt");
     let pairs = [('(', ')', 1), ('[', ']', 2), ('{', '}', 3), ('<', '>', 4)];
-    let mut sum = vec![];
+    let mut scores = vec![];
     'mainloop: for line in lines {
         let mut v = vec![];
         for c in line.chars() {
@@ -46,13 +46,13 @@ pub fn solve_2() -> i64 {
                 v.pop();
             }
         }
-        let mut sc = 0;
+        let mut score = 0;
         while let Some(c) = v.pop() {
             let p = pairs.iter().find(|&&p| p.0 == c).unwrap();
-            sc = sc * 5 + p.2;
+            score = score * 5 + p.2;
         }
-        sum.push(sc);
+        scores.push(score);
     }
-    sum.sort();
-    sum[sum.len() / 2]
+    scores.sort();
+    scores[scores.len() / 2]
 }
