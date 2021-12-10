@@ -16,14 +16,14 @@ pub fn solve_1() -> i64 {
     for line in lines {
         let mut v = vec![];
         for c in line.chars() {
-            if let Some(&p) = pairs.iter().find(|&&p| p.0 == c) {
-                v.push(c);
-            } else if let Some(&p) = pairs.iter().find(|p| p.1 == c) {
-                if v.len() == 0 || *v.last().unwrap() != p.0 {
+            if let Some(&p) = pairs.iter().find(|p| p.1 == c) {
+                if Some(&p.0) != v.last() {
                     sum += p.2;
                     break;
                 }
                 v.pop();
+            } else {
+                v.push(c);
             }
         }
     }
@@ -37,20 +37,18 @@ pub fn solve_2() -> i64 {
     'mainloop: for line in lines {
         let mut v = vec![];
         for c in line.chars() {
-            if let Some(&p) = pairs.iter().find(|&&p| p.0 == c) {
-                v.push(c);
-            } else if let Some(&p) = pairs.iter().find(|p| p.1 == c) {
-                if v.len() == 0 || *v.last().unwrap() != p.0 {
+            if let Some(p) = pairs.iter().find(|p| p.1 == c) {
+                if Some(&p.0) != v.last() {
                     continue 'mainloop;
                 }
                 v.pop();
+            } else {
+                v.push(c);
             }
         }
-        let mut score = 0;
-        while let Some(c) = v.pop() {
-            let p = pairs.iter().find(|&&p| p.0 == c).unwrap();
-            score = score * 5 + p.2;
-        }
+        let mut score = v.iter().rfold(0, |acc, &c| {
+            acc * 5 + pairs.iter().find(|p| p.0 == c).unwrap().2
+        });
         scores.push(score);
     }
     scores.sort();
