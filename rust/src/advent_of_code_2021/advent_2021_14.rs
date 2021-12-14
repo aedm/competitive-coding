@@ -16,7 +16,7 @@ fn solve(steps: i64) -> i64 {
 
     let mut pairs = HashMap::<(char, char), i64>::new();
     for p in 1..v.len() {
-        pairs.insert((v[p - 1], v[p]), 1);
+        *pairs.entry((v[p - 1], v[p])).or_insert(0) += 1;
     }
 
     let mut counts = HashMap::<char, i64>::new();
