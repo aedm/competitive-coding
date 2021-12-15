@@ -5,7 +5,6 @@ use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
 
 fn solve(costs: &[Vec<i64>]) -> i64 {
     let (mx, my) = (costs[0].len(), costs.len());
-    let dirs = [(1i64, 0), (-1, 0), (0, 1), (0, -1)];
     let mut reach = BTreeSet::<(i64, usize, usize)>::new();
     let mut path_cost = vec![vec![i64::MAX; mx]; my];
     path_cost[0][0] = 0;
