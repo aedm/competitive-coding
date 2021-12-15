@@ -1,4 +1,4 @@
-use crate::utils::read_lines;
+use crate::utils::{neighbours4, read_lines};
 use itertools::Itertools;
 use std::cmp::{max, min};
 use std::collections::{BTreeSet, HashMap, HashSet, VecDeque};
@@ -15,18 +15,11 @@ fn solve(costs: &[Vec<i64>]) -> i64 {
     while now != end {
         let now_cost = path_cost[now.1][now.0];
         reach.remove(&(now_cost, now.0, now.1));
-
-        for &(dx, dy) in &dirs {
-            let (nx, ny) = (now.0 as i64 + dx, now.1 as i64 + dy);
-            if nx == nx.clamp(0, mx as i64 - 1) && ny == ny.clamp(0, my as i64 - 1) {
-                let (ux, uy) = (nx as usize, ny as usize);
-                let pc = &mut path_cost[uy][ux];
-                let c = costs[uy][ux];
-                if *pc > now_cost + c {
-                    reach.remove(&(*pc, ux, uy));
-                    *pc = now_cost + c;
-                    reach.insert((*pc, ux, uy));
-                }
+        for (x, y) in neighbours4(now, 0, 0, mx, my) {
+            if path_cost[y][x] > now_cost + costs[y][x] {
+                reach.remove(&(path_cost[y][x], x, y));
+                path_cost[y][x] = now_cost + costs[y][x];
+                reach.insert((path_cost[y][x], x, y));
             }
         }
         let next = reach.iter().next().unwrap();
