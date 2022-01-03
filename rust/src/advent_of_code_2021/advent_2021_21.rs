@@ -40,7 +40,7 @@ fn mm(
     &mut m[index]
 }
 
-pub fn solve() -> i64 {
+pub fn solve_2() -> i64 {
     let mut m = vec![0i64; 40 * 40 * 10 * 10 * 2];
     *mm(&mut m, 0, 9, 0, 0, 0) = 1;
 
@@ -69,7 +69,7 @@ pub fn solve() -> i64 {
                         let v2 = mm(&mut m, p1, p2, sc1, sc2, 1);
                         let s2 = *v2;
                         *v2 = 0;
-                        for i in 0..p.len() {
+                        for i in 3..p.len() {
                             let np1 = (p1 + i) % 10;
                             *mm(&mut m, np1, p2, sc1 + np1 + 1, sc2, 1) += s1 * p[i];
                             let np2 = (p2 + i) % 10;
