@@ -62,7 +62,7 @@ fn sub(a: &Cube, b: &Cube) -> HashSet<Cube> {
     m
 }
 
-pub fn solve() -> (i64, i64) {
+pub fn solve_1() -> i64 {
     let lines = read_lines("advent_2021/22.txt");
     let pattern: Regex =
         Regex::new(r"^(on|off) x=(-?\d+)\.\.(-?\d+),y=(-?\d+)\.\.(-?\d+),z=(-?\d+)\.\.(-?\d+)$")
@@ -93,11 +93,6 @@ pub fn solve() -> (i64, i64) {
         cs = cs2;
     }
 
-    let solution_2 = cs
-        .iter()
-        .map(|c| max(c.1 - c.0 + 1, 0) * max(c.3 - c.2 + 1, 0) * max(c.5 - c.4 + 1, 0))
-        .sum();
-
     cs = cs
         .iter()
         .map(|c| {
@@ -111,10 +106,50 @@ pub fn solve() -> (i64, i64) {
             )
         })
         .collect();
-    let solution_1 = cs
-        .iter()
-        .map(|c| max(c.1 - c.0 + 1, 0) * max(c.3 - c.2 + 1, 0) * max(c.5 - c.4 + 1, 0))
-        .sum();
 
-    (solution_1, solution_2)
+    cs.iter().map(|c| max(c.1 - c.0 + 1, 0) * max(c.3 - c.2 + 1, 0) * max(c.5 - c.4 + 1, 0)).sum()
+}
+
+// Task 2, Vava's idea
+
+fn area(cubes: &[(bool, &[i64])]) -> i64 {
+    if cubes.len() == 0 {
+        return 0;
+    }
+    if cubes[0].1.len() == 0 {
+        return cubes[cubes.len() - 1].0 as i64;
+    }
+    let bounds = cubes.iter().flat_map(|&c| c.1[0..2].iter().cloned()).sorted().collect_vec();
+    (bounds[1..].iter().zip(bounds.iter()))
+        .map(|(&end, &start)| {
+            let slices = cubes
+                .iter()
+                .filter(|&c| c.1[0] <= start && c.1[1] >= end)
+                .map(|&(on, c)| (on, &c[2..]))
+                .collect_vec();
+            (end - start) * area(&slices)
+        })
+        .sum()
+}
+
+pub fn solve_2() -> i64 {
+    let lines = read_lines("advent_2021/22.txt");
+    let pattern =
+        Regex::new(r"^(on|off) x=(-?\d+)\.\.(-?\d+),y=(-?\d+)\.\.(-?\d+),z=(-?\d+)\.\.(-?\d+)$")
+            .unwrap();
+    let l = lines
+        .iter()
+        .map(|l| {
+            let caps = pattern.captures(l).unwrap();
+            let on = caps.get(1).unwrap().as_str() == "on";
+            let r = (2..=7)
+                .map(|i| caps.get(i).unwrap().as_str().parse::<i64>().unwrap())
+                .collect_tuple::<(i64, i64, i64, i64, i64, i64)>()
+                .unwrap();
+            (on, [r.0, r.1 + 1, r.2, r.3 + 1, r.4, r.5 + 1])
+        })
+        .collect_vec();
+
+    let cube_slices = l.iter().map(|(on, c)| (*on, &c[..])).collect_vec();
+    area(&cube_slices)
 }
