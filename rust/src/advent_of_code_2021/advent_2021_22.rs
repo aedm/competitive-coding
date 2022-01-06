@@ -119,9 +119,13 @@ fn area(cubes: &[(bool, &[i64])]) -> i64 {
     if cubes[0].1.len() == 0 {
         return cubes[cubes.len() - 1].0 as i64;
     }
-    let bounds = cubes.iter().flat_map(|&c| c.1[0..2].iter().cloned()).sorted().collect_vec();
-    (bounds[1..].iter().zip(bounds.iter()))
-        .map(|(&end, &start)| {
+    cubes
+        .iter()
+        .flat_map(|&c| c.1[0..2].iter())
+        .cloned()
+        .sorted()
+        .tuple_windows()
+        .map(|(start, end)| {
             let slices = cubes
                 .iter()
                 .filter(|&c| c.1[0] <= start && c.1[1] >= end)
@@ -142,11 +146,10 @@ pub fn solve_2() -> i64 {
         .map(|l| {
             let caps = pattern.captures(l).unwrap();
             let on = caps.get(1).unwrap().as_str() == "on";
-            let r = (2..=7)
-                .map(|i| caps.get(i).unwrap().as_str().parse::<i64>().unwrap())
-                .collect_tuple::<(i64, i64, i64, i64, i64, i64)>()
-                .unwrap();
-            (on, [r.0, r.1 + 1, r.2, r.3 + 1, r.4, r.5 + 1])
+            let cube = (2..=7)
+                .map(|i| caps.get(i).unwrap().as_str().parse::<i64>().unwrap() + i as i64 % 2)
+                .collect_vec();
+            (on, cube)
         })
         .collect_vec();
 
