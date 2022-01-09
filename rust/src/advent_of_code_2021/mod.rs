@@ -15,6 +15,7 @@ pub mod advent_2021_21;
 pub mod advent_2021_22;
 pub mod advent_2021_23;
 pub mod advent_2021_24;
+pub mod advent_2021_25;
 pub mod advent_2021_3;
 pub mod advent_2021_4;
 pub mod advent_2021_5;
