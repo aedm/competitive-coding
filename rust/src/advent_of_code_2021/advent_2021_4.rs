@@ -1,0 +1,50 @@
+use crate::utils::read_lines;
+use itertools::Itertools;
+
+pub fn solve(first: bool) -> i64 {
+    let lines = read_lines("advent_2021/4.txt");
+    let nums: Vec<i64> = lines[0].split(',').map(|x| x.parse().unwrap()).collect();
+    let boards = (0..((lines.len() - 1) / 6))
+        .map(|i| {
+            lines[i * 6 + 2..i * 6 + 7]
+                .iter()
+                .map(|l| l.split(' ').filter_map(|x| x.parse::<i64>().ok()).collect_vec())
+                .collect_vec()
+        })
+        .collect_vec();
+
+    let mut boards_left = boards.len();
+    let mut hits = vec![[[false; 5]; 5]; boards.len()];
+    let mut is_board_finished = vec![false; boards.len()];
+
+    for num in nums {
+        for (i, board) in boards.iter().enumerate() {
+            if !is_board_finished[i] {
+                if let Some((x, y)) =
+                    (0..5).cartesian_product(0..5).find(|&(x, y)| board[y][x] == num)
+                {
+                    hits[i][y][x] = true;
+                    if (0..5).all(|q| hits[i][q][x]) || (0..5).all(|q| hits[i][y][q]) {
+                        is_board_finished[i] = true;
+                        boards_left -= 1;
+                        if first || boards_left == 0 {
+                            let score = ((0..5).cartesian_product(0..5))
+                                .filter_map(|(x, y)| (!hits[i][y][x]).then(|| board[y][x]))
+                                .sum::<i64>();
+                            return score * num;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    panic!();
+}
+
+pub fn solve_1() -> i64 {
+    return solve(true);
+}
+
+pub fn solve_2() -> i64 {
+    return solve(false);
+}

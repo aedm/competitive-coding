@@ -8,10 +8,7 @@ use std::collections::{BTreeSet, VecDeque};
 pub fn solve(input_lines: &Vec<String>) -> Vec<String> {
     // println!("{:?}", input_lines);
     let n: usize = input_lines[0].parse().unwrap();
-    let input: Vec<i64> = input_lines[1]
-        .split(" ")
-        .map(|x| x.parse().unwrap())
-        .collect();
+    let input: Vec<i64> = input_lines[1].split(" ").map(|x| x.parse().unwrap()).collect();
     assert_eq!(input.len(), n * 2);
 
     let mut lists: Vec<VecDeque<usize>> = vec![VecDeque::new(); n * 2 + 3];

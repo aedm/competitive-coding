@@ -5,12 +5,7 @@ const K_MAX: i32 = 12_000;
 pub fn solve() -> i32 {
     let mut v = [K_MAX * 2 + 1; K_MAX as usize + 1];
     step(&mut v, 0, 1, 0, 2);
-    v[2..]
-        .iter()
-        .map(|x| *x)
-        .collect::<BTreeSet<i32>>()
-        .iter()
-        .sum()
+    v[2..].iter().map(|x| *x).collect::<BTreeSet<i32>>().iter().sum()
 }
 
 fn step(v: &mut [i32], count: i32, prod: i32, sum: i32, low: i32) {

@@ -34,10 +34,7 @@ fn solve_vec(inputs: &Vec<u64>) -> Vec<String> {
                 (_, 0) => 0,
                 (s, b) => {
                     let exp = 1 << (b - 1);
-                    (0..=min(s, 9 * exp))
-                        .step_by(exp)
-                        .map(|it| m[s - it][b - 1])
-                        .sum()
+                    (0..=min(s, 9 * exp)).step_by(exp).map(|it| m[s - it][b - 1]).sum()
                 }
             }
         }
@@ -76,9 +73,5 @@ fn find(input: u64, m: &[[u64; MAX_BITS]], sums: &[u64]) -> String {
         bit_sum -= dec * pot;
         result.push(dec);
     }
-    result
-        .iter()
-        .skip_while(|x| **x == 0)
-        .map(|x| x.to_string())
-        .collect()
+    result.iter().skip_while(|x| **x == 0).map(|x| x.to_string()).collect()
 }

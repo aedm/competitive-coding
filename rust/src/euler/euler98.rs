@@ -1801,11 +1801,7 @@ pub fn solve() -> i64 {
             h.insert(key, vec![w]);
         }
     }
-    let h2: Vec<_> = h
-        .iter()
-        .filter(|(_k, v)| v.len() > 1)
-        .map(|(_k, v)| v)
-        .collect();
+    let h2: Vec<_> = h.iter().filter(|(_k, v)| v.len() > 1).map(|(_k, v)| v).collect();
     let pow_max = h2.iter().map(|x| x[0].len()).max().unwrap() as u32;
     let k = 10_i64.pow(pow_max);
 
@@ -1859,9 +1855,7 @@ pub fn solve() -> i64 {
                     if bytes.iter().any(|x| cs[(*x) as usize] == -1) {
                         continue;
                     }
-                    let tn = bytes
-                        .iter()
-                        .fold(0_i64, |acc, x| acc * 10 + cs[(*x) as usize]);
+                    let tn = bytes.iter().fold(0_i64, |acc, x| acc * 10 + cs[(*x) as usize]);
                     if ((tn as f64).sqrt() as i64).pow(2) != tn {
                         continue;
                     }

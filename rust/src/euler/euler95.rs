@@ -1,9 +1,8 @@
 pub fn solve() -> usize {
     const K: usize = 1_000_000;
     let sieve = primal::Sieve::new(K);
-    let mut sum_divs: Vec<usize> = (1..K)
-        .map(|x| sum_divisors(&sieve.factor(x).unwrap(), 0, 1) - x)
-        .collect();
+    let mut sum_divs: Vec<usize> =
+        (1..K).map(|x| sum_divisors(&sieve.factor(x).unwrap(), 0, 1) - x).collect();
     sum_divs.insert(0, 0);
 
     let mut c = vec![0; K];
@@ -47,7 +46,5 @@ fn sum_divisors(factors: &Vec<(usize, usize)>, c: usize, p: usize) -> usize {
         return p;
     }
     let f = factors[c];
-    (0..=f.1)
-        .map(|x| sum_divisors(factors, c + 1, p * f.0.pow(x as u32)))
-        .sum()
+    (0..=f.1).map(|x| sum_divisors(factors, c + 1, p * f.0.pow(x as u32))).sum()
 }

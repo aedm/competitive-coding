@@ -13,11 +13,7 @@ pub fn solve() -> Result<String, String> {
         }
     }
 
-    let mut a = p
-        .iter()
-        .enumerate()
-        .map(|k| (k.0, *k.1))
-        .collect::<Vec<(usize, f64)>>();
+    let mut a = p.iter().enumerate().map(|k| (k.0, *k.1)).collect::<Vec<(usize, f64)>>();
     a.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
     let res = format!("{:02}{:02}{:02}", a[0].0, a[1].0, a[2].0);
     Ok(res)
@@ -48,16 +44,10 @@ fn get_field(name: &str) -> usize {
 }
 
 fn get_next_field(current_index: usize, name_prefix: &str) -> usize {
-    if let Some(index) = FIELDS[current_index..]
-        .iter()
-        .position(|&r| r.starts_with(name_prefix))
-    {
+    if let Some(index) = FIELDS[current_index..].iter().position(|&r| r.starts_with(name_prefix)) {
         return index + current_index;
     }
-    FIELDS[..current_index]
-        .iter()
-        .position(|&r| r.starts_with(name_prefix))
-        .unwrap()
+    FIELDS[..current_index].iter().position(|&r| r.starts_with(name_prefix)).unwrap()
 }
 
 fn add_transition(p: f64, field: usize, transitions: &mut Vec<f64>) {

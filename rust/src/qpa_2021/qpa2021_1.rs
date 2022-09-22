@@ -11,17 +11,9 @@ fn count_ones(x: u64) -> u64 {
 }
 
 pub fn solve(v: &Value) -> Value {
-    let nums: Vec<_> = v["set"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|x| x.as_u64().unwrap())
-        .collect();
+    let nums: Vec<_> = v["set"].as_array().unwrap().iter().map(|x| x.as_u64().unwrap()).collect();
     let max_ones = nums.iter().map(|x| count_ones(*x)).max().unwrap_or(0);
-    let insane_numbers: Vec<_> = nums
-        .into_iter()
-        .filter(|x| count_ones(*x) == max_ones)
-        .collect();
+    let insane_numbers: Vec<_> = nums.into_iter().filter(|x| count_ones(*x) == max_ones).collect();
 
     json!({ "insane_numbers": Value::from(insane_numbers) })
 }
