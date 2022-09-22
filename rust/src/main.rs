@@ -6,10 +6,12 @@ mod others;
 mod qpa_2021;
 mod utils;
 
+use dotenv::dotenv;
 use std::time::Instant;
 
 #[tokio::main]
 async fn main() {
+    let _ = dotenv();
     let now = Instant::now();
     // hackerrank::decibinary_numbers::main();
     // let solution = qpa_2021::qpa_main().await;
