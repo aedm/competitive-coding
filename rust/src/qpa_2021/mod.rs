@@ -10,15 +10,17 @@ mod qpa2021_3;
 mod qpa2021_4;
 mod qpa2022_2;
 mod qpa2022_3;
+mod qpa2022_4;
+mod qpa2022_5;
 
 pub async fn qpa_main() -> Result<()> {
     // let problem = ("barrel", qpa2021_4::solve);
-    let problem = ("the-escape", qpa2022_3::solve);
+    let problem = ("saw-squarey", qpa2022_5::solve);
 
-    // let input = serde_json::from_str(&read_scratch_file()).unwrap();
-    // let output = problem.1(&input);
-    // println!("Output:\n{}", to_string(&output)?);
-    // return Ok(());
+    let input = serde_json::from_str(&read_scratch_file()).unwrap();
+    let output = problem.1(&input);
+    println!("Output:\n{}", to_string(&output)?);
+    return Ok(());
 
     let submission: Value = call_api(
         Method::POST,
