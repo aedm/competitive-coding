@@ -21,7 +21,6 @@ fn read_input() -> Vec<i64> {
     }
     dirs.keys()
         .map(|k| dirs.iter().filter(|(p, _)| p.starts_with(k)).map(|(_, v)| v).sum::<i64>())
-        .sorted()
         .collect()
 }
 
@@ -31,6 +30,6 @@ pub fn solve_1() -> i64 {
 
 pub fn solve_2() -> i64 {
     let sizes = read_input();
-    let needed = sizes.last().unwrap() - (70000000 - 30000000);
+    let needed = sizes.iter().max().unwrap() - (70000000 - 30000000);
     *sizes.iter().filter(|v| **v >= needed).min().unwrap()
 }
