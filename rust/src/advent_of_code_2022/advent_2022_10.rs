@@ -30,7 +30,7 @@ pub fn solve_1() -> i64 {
         .sum()
 }
 
-pub fn solve() -> () {
+pub fn solve_2() -> () {
     let lines = read_lines("advent_2022/10.txt");
     let mut it = lines.iter();
     let mut pos = 1i64;
