@@ -1,8 +1,7 @@
-use crate::utils::{neighbours4, read_lines};
+use crate::utils::read_lines;
 use itertools::Itertools;
-use serde_json::Value;
+use serde_json::{json, Value};
 use std::cmp::{min, Ordering};
-use std::collections::{HashMap, HashSet, VecDeque};
 
 fn order(a: &Value, b: &Value) -> Ordering {
     match (a.is_array(), b.is_array()) {
@@ -35,15 +34,13 @@ pub fn solve_1() -> i64 {
 }
 
 pub fn solve_2() -> i64 {
-    let mut l = read_lines("advent_2022/13.txt")
+    let mut ls = read_lines("advent_2022/13.txt")
         .into_iter()
-        .filter(|s| s.len() > 0)
+        .filter(|s| !s.is_empty())
         .map(|s| serde_json::from_str::<Value>(&s).unwrap())
         .collect_vec();
-    let v1 = Value::from(vec![Value::from(vec![2i64])]);
-    let v2 = Value::from(vec![Value::from(vec![6i64])]);
-    let vs = vec![v1, v2];
-    l.append(&mut vs.clone());
-    l.sort_by(|a, b| order(a, b));
-    vs.iter().map(|a| l.iter().find_position(|&v| v == a).unwrap().0 + 1).product::<usize>() as i64
+    let vs = vec![json!([[2]]), json!([[6]])];
+    ls.append(&mut vs.clone());
+    ls.sort_by(|a, b| order(a, b));
+    vs.iter().map(|v| ls.iter().find_position(|&l| l == v).unwrap().0 + 1).product::<usize>() as i64
 }
