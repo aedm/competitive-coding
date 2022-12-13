@@ -22,7 +22,7 @@ fn order(a: &Value, b: &Value) -> Ordering {
     }
 }
 
-pub fn solve_1() -> i64 {
+pub fn solve_1() -> usize {
     read_lines("advent_2022/13.txt")
         .chunks(3)
         .enumerate()
@@ -30,10 +30,10 @@ pub fn solve_1() -> i64 {
             let n = c[0..2].iter().map(|s| serde_json::from_str::<Value>(s).unwrap()).collect_vec();
             return if order(&n[0], &n[1]) != Ordering::Greater { i + 1 } else { 0 };
         })
-        .sum::<usize>() as i64
+        .sum::<usize>()
 }
 
-pub fn solve_2() -> i64 {
+pub fn solve_2() -> usize {
     let mut ls = read_lines("advent_2022/13.txt")
         .into_iter()
         .filter(|s| !s.is_empty())
@@ -42,5 +42,5 @@ pub fn solve_2() -> i64 {
     let vs = vec![json!([[2]]), json!([[6]])];
     ls.append(&mut vs.clone());
     ls.sort_by(|a, b| order(a, b));
-    vs.iter().map(|v| ls.iter().find_position(|&l| l == v).unwrap().0 + 1).product::<usize>() as i64
+    vs.iter().map(|v| ls.iter().find_position(|&l| l == v).unwrap().0 + 1).product::<usize>()
 }
