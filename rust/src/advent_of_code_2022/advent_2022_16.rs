@@ -67,8 +67,9 @@ pub fn solve_1() -> i64 {
 pub fn solve_2() -> i64 {
     let (valves, start) = read_valves();
     let mut state = HashMap::from([((start, start, 0), 0)]);
+    let mut maxs = HashMap::from([((start, start, 0), 0)]);
     let non_empty_count = valves.iter().filter(|v| v.0 > 0).count();
-
+    let mut m = 0;
     for time in 1..=26 {
         for _ in 0..2 {
             let mut new_state = HashMap::new();
@@ -76,20 +77,27 @@ pub fn solve_2() -> i64 {
                 if pos < non_empty_count && (opened & (1 << pos)) == 0 {
                     let new_key = (other, pos, opened | (1 << pos));
                     let new_total = total + valves[pos].0 * (26 - time);
-                    if !new_state.contains_key(&new_key) || new_state[&new_key] < new_total {
+                    if maxs.get(&new_key).cloned().unwrap_or_default() < new_total {
                         new_state.insert(new_key, new_total);
+                        maxs.insert(new_key, new_total);
+                        if new_total > m {
+                            m = new_total;
+                        }
                     }
                 }
                 for &next_valve in &valves[pos].1 {
                     let new_key = (other, next_valve, opened);
-                    if !new_state.contains_key(&new_key) || new_state[&new_key] < total {
-                        new_state.insert(new_key, total);
+                    if let Some(v) = maxs.get(&new_key) {
+                        if *v >= total {
+                            continue;
+                        }
                     }
+                    new_state.insert(new_key, total);
+                    maxs.insert(new_key, total);
                 }
             }
             state = new_state;
         }
     }
-
-    *state.values().max().unwrap()
+    m
 }
