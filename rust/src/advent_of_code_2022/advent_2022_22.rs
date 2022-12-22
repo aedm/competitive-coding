@@ -108,65 +108,38 @@ fn wrap_cube(w: isize, h: isize, m: &mut Vec<(u8, [(isize, isize, usize); 4])>) 
         })
         .collect_vec();
     let ((mut y, mut x), mut dir) = concave_corners[0];
-    loop {
+    while f.len() == 0 || (x, y, dir) != f[0] {
         f.push((x, y, dir));
         let (mut nx, mut ny) = (x + DIRS[dir].0, y + DIRS[dir].1);
         if m[(ny * w + nx) as usize].0 == b' ' {
-            // turn right
             dir = (dir + 1) % 4;
         } else {
             let cdir = (dir + 3) % 4;
             let (cx, cy) = (nx + DIRS[cdir].0, ny + DIRS[cdir].1);
-            if m[(cy * w + cx) as usize].0 != b' ' {
-                // turn left
-                (x, y, dir) = (cx, cy, cdir);
-            } else {
-                (x, y) = (nx, ny);
-            }
-        }
-        if (x, y, dir) == f[0] {
-            break;
+            (x, y, dir) =
+                if m[(cy * w + cx) as usize].0 != b' ' { (cx, cy, cdir) } else { (nx, ny, dir) }
         }
     }
 
-    let mut cursors = concave_corners
-        .into_iter()
-        .map(|((cy, cx), cd)| {
-            let mut i1 = f.iter().position(|&fp| fp == (cx, cy, cd)).unwrap();
-            let mut i2 = (i1 + f.len() - 1) % f.len();
-            (i1, i2)
-        })
-        .collect_vec();
-
-    let mut mapped = HashSet::new();
-    let cheat = [100, 100, 150];
-    for i in 0..3 {
-        let (mut i1, mut i2) = cursors[i];
-        let oi1 = i1;
-        let oi2 = i2;
-
-        for k in 0..cheat[i] {
+    for ((cy, cx), cd) in concave_corners {
+        let mut i1 = f.iter().position(|&fp| fp == (cx, cy, cd)).unwrap();
+        let mut i2 = (i1 + f.len() - 1) % f.len();
+        loop {
             let in1 = (f[i1].2 + 1) % 4;
             let in2 = (f[i2].2 + 1) % 4;
             let out1 = (in1 + 2) % 4;
             let out2 = (in2 + 2) % 4;
             m[(f[i1].1 * w + f[i1].0) as usize].1[out1] = (f[i2].0, f[i2].1, in2);
             m[(f[i2].1 * w + f[i2].0) as usize].1[out2] = (f[i1].0, f[i1].1, in1);
-            mapped.insert(i1);
-            mapped.insert(i2);
 
-            loop {
-                i1 = (i1 + 1) % f.len();
-                if oi1 == i1 || !mapped.contains(&i1) {
-                    break;
-                }
+            let o1 = (i1 + 1) % f.len();
+            let o2 = (i2 + f.len() - 1) % f.len();
+            if (f[i1].0 + DIRS[f[i1].2].0 != f[o1].0 || f[i1].1 + DIRS[f[i1].2].1 != f[o1].1)
+                && (f[o2].0 + DIRS[f[o2].2].0 != f[i2].0 || f[o2].1 + DIRS[f[o2].2].1 != f[i2].1)
+            {
+                break;
             }
-            loop {
-                i2 = (i2 + f.len() - 1) % f.len();
-                if oi2 == i2 || !mapped.contains(&i2) {
-                    break;
-                }
-            }
+            (i1, i2) = (o1, o2);
         }
     }
 }
