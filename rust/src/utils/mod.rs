@@ -32,3 +32,30 @@ pub fn neighbours4(
         })
         .map(|(nx, ny)| (nx as usize, ny as usize))
 }
+
+pub fn debug_2d_map(map: &[(isize, isize, char)], default: char) {
+    let (min_x, max_x, min_y, max_y) = map.iter().fold(
+        (isize::MAX, isize::MIN, isize::MAX, isize::MIN),
+        |(min_x, max_x, min_y, max_y), (x, y, _)| {
+            (min_x.min(*x), max_x.max(*x), min_y.min(*y), max_y.max(*y))
+        },
+    );
+    debug_2d_map_fixed(min_x, max_x, min_y, max_y, map, default);
+}
+
+pub fn debug_2d_map_fixed(
+    min_x: isize,
+    max_x: isize,
+    min_y: isize,
+    max_y: isize,
+    map: &[(isize, isize, char)],
+    default: char,
+) {
+    let mut v = vec![vec![default; (max_x - min_x + 1) as usize]; (max_y - min_y + 1) as usize];
+    for (x, y, c) in map {
+        v[(y - min_y) as usize][(x - min_x) as usize] = *c;
+    }
+    for row in v {
+        println!("{}", row.iter().collect::<String>());
+    }
+}
