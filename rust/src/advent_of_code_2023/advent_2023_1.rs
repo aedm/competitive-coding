@@ -1,12 +1,12 @@
 use crate::utils::read_lines;
 use itertools::Itertools;
 
-pub fn solve_1() -> i64 {
+pub fn solve_1() -> u32 {
     read_lines("advent_2023/1.txt")
         .iter()
         .map(|l| {
-            let k = l.chars().filter(|c| c.is_numeric()).collect::<Vec<_>>();
-            [k[0], k[k.len() - 1]].iter().collect::<String>().parse::<i64>().unwrap()
+            let v = l.chars().filter_map(|c| c.to_digit(10)).collect_vec();
+            v[0] * 10 + v[v.len() - 1]
         })
         .sum()
 }
