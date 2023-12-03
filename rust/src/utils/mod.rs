@@ -59,3 +59,11 @@ pub fn debug_2d_map_fixed(
         println!("{}", row.iter().collect::<String>());
     }
 }
+
+pub fn map_add(x: i32, y: i32, dx: i32, dy: i32, max_x: i32, max_y: i32) -> Option<(i32, i32)> {
+    if x + dx < 0 || x + dx >= max_x || y + dy < 0 || y + dy >= max_y {
+        None
+    } else {
+        Some((x + dx, y + dy))
+    }
+}

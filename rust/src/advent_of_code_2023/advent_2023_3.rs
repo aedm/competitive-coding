@@ -1,11 +1,10 @@
-use crate::utils::read_lines;
+use crate::utils::{map_add, read_lines};
 use itertools::Itertools;
 use regex::Regex;
 use std::fmt::{Debug, Display};
 
 fn read_maps() -> (Vec<Vec<char>>, Vec<(i32, i32, i32, i32)>) {
     let num_pattern = Regex::new(r"(\d+)").unwrap();
-
     let lines = read_lines("advent_2023/3.txt");
     let c = lines.iter().map(|l| l.chars().collect_vec()).collect_vec();
     let nums = lines
@@ -30,33 +29,27 @@ pub fn solve_1() -> i32 {
     nums.iter()
         .filter(|(x, y, l, v)| {
             (-1..=*l).cartesian_product(-1..=1).any(|(dx, dy)| {
-                let (mx, my) = (x + dx, y + dy);
-                if mx > 0 && my > 0 && mx < c[0].len() as i32 && my < c.len() as i32 {
+                if let Some((mx, my)) = map_add(*x, *y, dx, dy, c[0].len() as i32, c.len() as i32) {
                     let mv = c[my as usize][mx as usize];
-                    !mv.is_numeric() && mv != '.'
-                } else {
-                    false
+                    return !mv.is_numeric() && mv != '.';
                 }
+                false
             })
         })
         .map(|(_, _, _, v)| *v)
         .sum::<i32>()
 }
 
-pub fn solve() -> i32 {
+pub fn solve_2() -> i32 {
     let (c, nums) = read_maps();
     let mut gears = vec![vec![(0, 1); c[0].len()]; c.len()];
     for (x, y, l, v) in &nums {
         for (dx, dy) in (-1..=*l).cartesian_product(-1..=1) {
-            let (mx, my) = (x + dx, y + dy);
-            if mx > 0
-                && my > 0
-                && mx < c[0].len() as i32
-                && my < c.len() as i32
-                && c[my as usize][mx as usize] == '*'
-            {
-                let g = &mut gears[my as usize][mx as usize];
-                *g = (g.0 + 1, g.1 * *v)
+            if let Some((mx, my)) = map_add(*x, *y, dx, dy, c[0].len() as i32, c.len() as i32) {
+                if c[my as usize][mx as usize] == '*' {
+                    let g = &mut gears[my as usize][mx as usize];
+                    *g = (g.0 + 1, g.1 * *v)
+                }
             }
         }
     }
