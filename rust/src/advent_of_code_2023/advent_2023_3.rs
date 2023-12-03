@@ -48,7 +48,7 @@ pub fn solve_2() -> i32 {
             if let Some((mx, my)) = map_add(*x, *y, dx, dy, c[0].len() as i32, c.len() as i32) {
                 if c[my as usize][mx as usize] == '*' {
                     let g = &mut gears[my as usize][mx as usize];
-                    *g = (g.0 + 1, g.1 * *v)
+                    *g = (g.0 + 1, g.1 * v)
                 }
             }
         }
