@@ -5,15 +5,13 @@ use std::fmt::Debug;
 fn read_input() -> (Vec<i64>, Vec<Vec<(i64, i64, i64)>>) {
     let lines = read_lines("advent_2023/5.txt");
     let blocks = lines.split(|l| l.is_empty()).collect_vec();
-    let seeds = blocks[0][0].split(' ').skip(1).map(|s| s.parse::<i64>().unwrap()).collect_vec();
+    let seeds = blocks[0][0].split(' ').skip(1).map(|s| s.parse().unwrap()).collect_vec();
     let maps = blocks[1..]
         .iter()
         .map(|b| {
             b[1..]
                 .iter()
-                .map(|l| {
-                    l.split(' ').filter_map(|s| s.parse::<i64>().ok()).collect_tuple().unwrap()
-                })
+                .map(|l| l.split(' ').filter_map(|s| s.parse().ok()).collect_tuple().unwrap())
                 .collect_vec()
         })
         .collect_vec();
