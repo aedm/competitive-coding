@@ -48,7 +48,7 @@ fn solve(maps: &[Vec<(usize, usize, usize)>], seeds: &[(usize, usize)]) -> usize
 
 pub fn solve_1() -> impl Debug {
     let (seeds, maps) = read_input();
-    let seeds = seeds.iter().map(|c| (*c, c+ 1)).collect_vec();
+    let seeds = seeds.iter().map(|c| (*c, c + 1)).collect_vec();
     solve(&maps, &seeds)
 }
 
