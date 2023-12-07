@@ -1,12 +1,11 @@
-use crate::utils::read_lines;
+use crate::utils::read_lines_split;
 use itertools::Itertools;
 
 fn solve(has_jokers: bool) -> usize {
     let figs = if has_jokers { "J23456789TQKA" } else { "_23456789TJQKA" };
-    read_lines("advent_2023/7.txt")
+    read_lines_split("advent_2023/7.txt", &[' '])
         .into_iter()
-        .map(|l| {
-            let parts = l.split(' ').collect_vec();
+        .map(|parts| {
             let cards = parts[0]
                 .chars()
                 .map(|c| figs.chars().find_position(|&f| f == c).unwrap().0)
