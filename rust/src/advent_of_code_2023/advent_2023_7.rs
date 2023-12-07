@@ -1,6 +1,5 @@
 use crate::utils::read_lines;
 use itertools::Itertools;
-use std::fmt::Debug;
 
 fn solve(has_jokers: bool) -> usize {
     let figs = if has_jokers { "J23456789TQKA" } else { "_23456789TJQKA" };
