@@ -19,13 +19,13 @@ fn solve(has_jokers: bool) -> usize {
                 .rev()
                 .collect_vec();
             let j = if has_jokers { cards.iter().filter(|c| **c == 0).count() } else { 0 };
-            let val = match (r[0] + j, r[1], r[0], r[1] + j) {
-                (5, _, _, _) => 6,
-                (4, _, _, _) => 5,
-                (3, 2, _, _) => 4,
-                (3, _, _, _) => 3,
-                (_, _, 2, 2) => 2,
-                (2, _, _, _) => 1,
+            let val = match (r[0] + j, r[1]) {
+                (5, _) => 6,
+                (4, _) => 5,
+                (3, 2) => 4,
+                (3, _) => 3,
+                (2, 2) => 2,
+                (2, _) => 1,
                 _ => 0,
             };
             (val, cards, bid)
