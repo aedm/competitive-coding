@@ -13,7 +13,7 @@ fn solve(has_jokers: bool) -> usize {
                 .map(|c| figs.chars().find_position(|&f| f == c).unwrap().0)
                 .collect_vec();
             let bid = parts[1].parse::<usize>().unwrap();
-            let r = (1..=figs.len())
+            let r = (1..figs.len())
                 .map(|i| cards.iter().filter(|&&v| v == i).count())
                 .sorted()
                 .rev()
@@ -32,7 +32,7 @@ fn solve(has_jokers: bool) -> usize {
         })
         .sorted()
         .enumerate()
-        .map(|(i, (_, _, bid))| ((i + 1) * bid))
+        .map(|(i, (_, _, bid))| (i + 1) * bid)
         .sum()
 }
 
