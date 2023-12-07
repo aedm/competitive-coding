@@ -19,7 +19,7 @@ fn solve(has_jokers: bool) -> usize {
                 .rev()
                 .collect_vec();
             let j = if has_jokers { cards.iter().filter(|c| **c == 0).count() } else { 0 };
-            let val = match (r[0] + j, r[1]) {
+            let rank = match (r[0] + j, r[1]) {
                 (5, _) => 6,
                 (4, _) => 5,
                 (3, 2) => 4,
@@ -28,7 +28,7 @@ fn solve(has_jokers: bool) -> usize {
                 (2, _) => 1,
                 _ => 0,
             };
-            (val, cards, bid)
+            (rank, cards, bid)
         })
         .sorted()
         .enumerate()
