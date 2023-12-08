@@ -2,7 +2,6 @@ use crate::utils::read_lines;
 use itertools::Itertools;
 use regex::Regex;
 use std::collections::HashMap;
-use std::fmt::Debug;
 
 fn read_input() -> (Vec<char>, HashMap<String, (String, String)>) {
     let pattern: Regex = Regex::new(r"^(...) = .(...), (...).$").unwrap();
@@ -18,7 +17,7 @@ fn read_input() -> (Vec<char>, HashMap<String, (String, String)>) {
     (dirs, junc)
 }
 
-pub fn solve() -> impl Debug {
+pub fn solve() -> usize {
     let (dirs, junc) = read_input();
     let (mut s, mut i) = ("AAA", 0);
     while s != "ZZZ" {
@@ -28,7 +27,7 @@ pub fn solve() -> impl Debug {
     i
 }
 
-pub fn solve_2() -> impl Debug {
+pub fn solve_2() -> u128 {
     let (dirs, junc) = read_input();
     junc.keys()
         .filter(|k| k.ends_with('A'))
