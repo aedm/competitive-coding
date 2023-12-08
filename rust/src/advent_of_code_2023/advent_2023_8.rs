@@ -3,7 +3,9 @@ use itertools::Itertools;
 use regex::Regex;
 use std::collections::HashMap;
 
-fn read_input() -> (Vec<usize>, HashMap<String, [String; 2]>) {
+type Input = (Vec<usize>, HashMap<String, [String; 2]>);
+
+fn read_input() -> Input {
     let pattern: Regex = Regex::new(r"^(...) = .(...), (...).$").unwrap();
     let lines = read_lines("advent_2023/8.txt");
     let dirs = lines[0].chars().map(|c| if c == 'L' { 0 } else { 1 }).collect_vec();
@@ -17,27 +19,23 @@ fn read_input() -> (Vec<usize>, HashMap<String, [String; 2]>) {
     (dirs, junc)
 }
 
-pub fn solve_1() -> usize {
-    let (dirs, junc) = read_input();
-    let (mut s, mut i) = ("AAA", 0);
-    while s != "ZZZ" {
-        s = &junc[s][dirs[i % dirs.len()]];
+pub fn find_cycle<'a>(input: &'a Input, mut s: &'a str, end: &str) -> u128 {
+    let mut i = 0;
+    while !s.ends_with('Z') {
+        s = &input.1[s][input.0[i % input.0.len()]];
         i += 1;
     }
-    i
+    i as u128
+}
+
+pub fn solve_1() -> usize {
+    find_cycle(&read_input(), "AAA", "ZZZ") as usize
 }
 
 pub fn solve_2() -> u128 {
-    let (dirs, junc) = read_input();
-    junc.keys()
+    let input = read_input();
+    input.1.keys()
         .filter(|k| k.ends_with('A'))
-        .map(|mut s| {
-            let mut i = 0;
-            while !s.ends_with('Z') {
-                s = &junc[s][dirs[i % dirs.len()]];
-                i += 1;
-            }
-            i as u128
-        })
-        .fold(1, num::integer::lcm)
+        .map(|mut s| find_cycle(&input, &mut s, "Z"))
+        .fold(1, num::integer::lcm)  // ottrohadjonmeg
 }
