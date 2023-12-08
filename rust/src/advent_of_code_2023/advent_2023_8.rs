@@ -17,7 +17,7 @@ fn read_input() -> (Vec<char>, HashMap<String, (String, String)>) {
     (dirs, junc)
 }
 
-pub fn solve() -> usize {
+pub fn solve_1() -> usize {
     let (dirs, junc) = read_input();
     let (mut s, mut i) = ("AAA", 0);
     while s != "ZZZ" {
