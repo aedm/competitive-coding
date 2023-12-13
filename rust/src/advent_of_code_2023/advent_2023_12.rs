@@ -24,7 +24,7 @@ fn count_ways(v: &[char], nums: &[usize]) -> usize {
     m[nums.len()][v.len() - 1]
 }
 
-pub fn solve() -> usize {
+pub fn solve_1() -> usize {
     read_lines_split("advent_2023/12.txt", &[' ', ','])
         .iter()
         .map(|l| {
