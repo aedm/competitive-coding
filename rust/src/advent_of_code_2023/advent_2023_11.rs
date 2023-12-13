@@ -4,10 +4,7 @@ use itertools::Itertools;
 fn solve(factor: i64) -> usize {
     let l = read_lines("advent_2023/11.txt").iter().map(|l| l.chars().collect_vec()).collect_vec();
     let (w, h) = (l[0].len(), l.len());
-    let s = (0..w)
-        .cartesian_product(0..h)
-        .filter(|&(x, y)| l[y as usize][x as usize] == '#')
-        .collect_vec();
+    let s = (0..w).cartesian_product(0..h).filter(|&(x, y)| l[y][x] == '#').collect_vec();
     let ex = (0..w).filter(|&x| s.iter().all(|s| s.0 != x)).collect_vec();
     let ey = (0..h).filter(|&y| s.iter().all(|s| s.1 != y)).collect_vec();
     (0..s.len())
