@@ -1,7 +1,7 @@
 use crate::utils::read_lines;
 use itertools::Itertools;
 
-fn solve_c(factor: i64) -> usize {
+fn solve(factor: i64) -> usize {
     let l = read_lines("advent_2023/11.txt").iter().map(|l| l.chars().collect_vec()).collect_vec();
     let (w, h) = (l[0].len(), l.len());
     let s = (0..w)
@@ -22,9 +22,9 @@ fn solve_c(factor: i64) -> usize {
 }
 
 pub fn solve_1() -> usize {
-    solve_c(2)
+    solve(2)
 }
 
-pub fn solve() -> usize {
-    solve_c(1000000)
+pub fn solve_2() -> usize {
+    solve(1000000)
 }
