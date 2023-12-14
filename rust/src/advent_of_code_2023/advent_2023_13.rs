@@ -25,7 +25,7 @@ pub fn solve_1() -> usize {
         .sum::<usize>()
 }
 
-pub fn solve() -> usize {
+pub fn solve_2() -> usize {
     read_lines("advent_2023/13.txt")
         .split(|l| l.is_empty())
         .into_iter()
