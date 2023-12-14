@@ -10,3 +10,4 @@ pub mod advent_2023_9;
 pub mod advent_2023_10;
 pub mod advent_2023_11;
 pub mod advent_2023_12;
+pub mod advent_2023_13;
