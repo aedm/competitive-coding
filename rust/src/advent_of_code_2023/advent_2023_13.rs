@@ -10,12 +10,12 @@ fn solve(s: usize) -> usize {
             let (w, h) = (b[0].len(), b.len());
             let vertical = (1..w).find(|&x| {
                 s == Itertools::cartesian_product(0..min(x, w - x), 0..h)
-                    .filter(|&(i, j)| b[j][x - i - 1] != b[j][x + i])
+                    .filter(|&(i, y)| b[y][x - i - 1] != b[y][x + i])
                     .count()
             });
             let horizontal = (1..h).find(|&y| {
                 s == Itertools::cartesian_product(0..min(y, h - y), 0..w)
-                    .filter(|&(i, j)| b[y - i - 1][j] != b[y + i][j])
+                    .filter(|&(i, x)| b[y - i - 1][x] != b[y + i][x])
                     .count()
             });
             horizontal.unwrap_or(0) * 100 + vertical.unwrap_or(0)
