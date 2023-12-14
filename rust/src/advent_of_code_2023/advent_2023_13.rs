@@ -9,15 +9,13 @@ fn solve(smudge_count: usize) -> usize {
             let b = b.iter().map(|l| l.chars().collect_vec()).collect_vec();
             let (w, h) = (b[0].len(), b.len());
             let vertical = (1..w).find(|&x| {
-                (0..min(x, w - x))
-                    .cartesian_product(0..h)
+                Itertools::cartesian_product(0..min(x, w - x), 0..h)
                     .filter(|&(i, j)| b[j][x - i - 1] != b[j][x + i])
                     .count()
                     == smudge_count
             });
             let horizontal = (1..h).find(|&y| {
-                (0..min(y, h - y))
-                    .cartesian_product(0..w)
+                Itertools::cartesian_product(0..min(y, h - y), 0..w)
                     .filter(|&(i, j)| b[y - i - 1][j] != b[y + i][j])
                     .count()
                     == smudge_count
