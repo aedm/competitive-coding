@@ -28,7 +28,7 @@ fn solve(smudge_count: usize) -> usize {
                 .unwrap_or(0);
             horizontal * 100 + vertical
         })
-        .sum::<usize>()
+        .sum()
 }
 
 pub fn solve_1() -> usize {
