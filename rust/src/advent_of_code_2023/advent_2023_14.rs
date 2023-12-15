@@ -2,7 +2,7 @@ use crate::utils::{map_add, read_lines};
 use itertools::Itertools;
 use std::collections::HashMap;
 
-pub fn solve_d(cycles: usize) -> i64 {
+pub fn solve(cycles: usize) -> i64 {
     let mut m =
         read_lines("advent_2023/14.txt").iter().map(|l| l.chars().collect_vec()).collect_vec();
     let (w, h) = (m[0].len() as i64, m.len() as i64);
@@ -48,9 +48,9 @@ pub fn solve_d(cycles: usize) -> i64 {
 }
 
 pub fn solve_1() -> i64 {
-    solve_d(1)
+    solve(1)
 }
 
-pub fn solve() -> i64 {
-    solve_d(4_000_000_000)
+pub fn solve_2() -> i64 {
+    solve(4_000_000_000)
 }
