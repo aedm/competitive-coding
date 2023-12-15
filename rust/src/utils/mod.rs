@@ -67,10 +67,10 @@ pub fn debug_2d_map_fixed(
     }
 }
 
-pub fn map_add(x: i32, y: i32, dx: i32, dy: i32, max_x: i32, max_y: i32) -> Option<(i32, i32)> {
-    if x + dx < 0 || x + dx >= max_x || y + dy < 0 || y + dy >= max_y {
+pub fn map_add(c: (i64, i64), d: (i64, i64), max_x: i64, max_y: i64) -> Option<(i64, i64)> {
+    if c.0 + d.0 < 0 || c.0 + d.0 >= max_x || c.1 + d.1 < 0 || c.1 + d.1 >= max_y {
         None
     } else {
-        Some((x + dx, y + dy))
+        Some((c.0 + d.0, c.1 + d.1))
     }
 }

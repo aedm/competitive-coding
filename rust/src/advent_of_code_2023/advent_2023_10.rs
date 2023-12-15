@@ -3,7 +3,7 @@ use itertools::Itertools;
 use std::collections::{HashMap, VecDeque};
 use std::fmt::Debug;
 
-fn read_input() -> ((i32, i32), Vec<Vec<[u8; 4]>>) {
+fn read_input() -> ((i64, i64), Vec<Vec<[u8; 4]>>) {
     let p = HashMap::from([
         ('.', [0, 0, 0, 0]),
         ('|', [1, 0, 1, 0]),
@@ -20,7 +20,7 @@ fn read_input() -> ((i32, i32), Vec<Vec<[u8; 4]>>) {
     for (y, line) in lines.into_iter().enumerate() {
         for (x, c) in line.chars().enumerate() {
             if c == 'S' {
-                s = (x as i32, y as i32);
+                s = (x as i64, y as i64);
             }
             m[y][x] = p[&c];
         }
@@ -28,7 +28,7 @@ fn read_input() -> ((i32, i32), Vec<Vec<[u8; 4]>>) {
     (s, m)
 }
 
-fn find_loop(m: &Vec<Vec<[u8; 4]>>, s: (i32, i32)) -> Vec<Vec<usize>> {
+fn find_loop(m: &Vec<Vec<[u8; 4]>>, s: (i64, i64)) -> Vec<Vec<usize>> {
     let d = [(0, -1), (1, 0), (0, 1), (-1, 0)];
     let mut q = VecDeque::new();
     q.push_back((s, 0));
@@ -40,7 +40,7 @@ fn find_loop(m: &Vec<Vec<[u8; 4]>>, s: (i32, i32)) -> Vec<Vec<usize>> {
         dist[y as usize][x as usize] = ds;
         for di in 0..4 {
             if m[y as usize][x as usize][di] != 0 {
-                if let Some(n) = map_add(x, y, d[di].0, d[di].1, m[0].len() as i32, m.len() as i32)
+                if let Some(n) = map_add((x, y), d[di], m[0].len() as i64, m.len() as i64)
                 {
                     if m[n.1 as usize][n.0 as usize][(di + 2) % 4] == 1 {
                         q.push_back((n, ds + 1));
@@ -78,10 +78,10 @@ pub fn solve_2() -> impl Debug {
     }
 
     let lp = find_loop(&m2, (s.0 * 2, s.1 * 2));
-    let mut q = (0..m2.len() as i32)
-        .cartesian_product(0..m2[0].len() as i32)
+    let mut q = (0..m2.len() as i64)
+        .cartesian_product(0..m2[0].len() as i64)
         .filter(|(y, x)| {
-            *x == 0 || *y == 0 || *x == m2[0].len() as i32 - 1 || *y == m2.len() as i32 - 1
+            *x == 0 || *y == 0 || *x == m2[0].len() as i64 - 1 || *y == m2.len() as i64 - 1
         })
         .collect::<VecDeque<_>>();
 
@@ -92,7 +92,7 @@ pub fn solve_2() -> impl Debug {
         }
         outside[y as usize][x as usize] = true;
         for di in 0..4 {
-            if let Some(n) = map_add(x, y, d[di].0, d[di].1, m2[0].len() as i32, m2.len() as i32) {
+            if let Some(n) = map_add((x, y), d[di], m2[0].len() as i64, m2.len() as i64) {
                 q.push_back(n);
             }
         }
