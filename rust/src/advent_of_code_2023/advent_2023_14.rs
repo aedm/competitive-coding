@@ -27,11 +27,12 @@ pub fn solve(cycles: usize) -> i64 {
             }
             m[rock.1 as usize][rock.0 as usize] = 'O';
         }
-        if let Some(&prev_i) = map_to_index.get(&(m.clone(), dir)) {
+        let key = (m.clone(), dir);
+        if let Some(&prev_i) = map_to_index.get(&key) {
             m = std::mem::take(&mut maps[prev_i + (cycles - i) % (i - prev_i) - 1]);
             break;
         }
-        map_to_index.insert((m.clone(), dir), i);
+        map_to_index.insert(key, i);
         maps.push(m.clone());
     }
     Itertools::cartesian_product(0..w, 0..h)
