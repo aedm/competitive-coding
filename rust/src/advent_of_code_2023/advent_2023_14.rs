@@ -1,44 +1,35 @@
-use crate::utils::{map_add, read_lines};
+use crate::utils::array2d::{IVec2D, Map2D};
+use crate::utils::read_lines;
 use itertools::Itertools;
 use std::collections::HashMap;
 
 pub fn solve(cycles: usize) -> i64 {
-    let mut m: Vec<Vec<char>> =
-        read_lines("advent_2023/14.txt").iter().map(|l| l.chars().collect_vec()).collect_vec();
-    let (w, h) = (m[0].len() as i64, m.len() as i64);
-
-    let dirs = [(0, -1), (-1, 0), (0, 1), (1, 0)];
+    let mut m = Map2D::from_text(&read_lines("advent_2023/14.txt"));
     let mut map_to_index = HashMap::new();
     let mut maps = vec![];
-
     for i in 0..cycles {
         let dir = i % 4;
-        let rocks = Itertools::cartesian_product(0..w, 0..h)
-            .filter(|&(x, y)| m[y as usize][x as usize] == 'O')
-            .sorted_by_key(|&(x, y)| (x * -dirs[dir].0, y * -dirs[dir].1))
+        let rocks = m
+            .filter(|_, v| *v == 'O')
+            .map(|(p, _)| p)
+            .sorted_by_key(|&c| c * -IVec2D::DIRS4[dir])
             .collect_vec();
         for mut rock in rocks {
-            m[rock.1 as usize][rock.0 as usize] = '.';
-            while let Some(c) = map_add(rock, dirs[dir], w, h) {
-                if m[c.1 as usize][c.0 as usize] != '.' {
-                    break;
-                }
+            m[rock] = '.';
+            while let Some((c, '.')) = m.add_coord(rock, IVec2D::DIRS4[dir]) {
                 rock = c;
             }
-            m[rock.1 as usize][rock.0 as usize] = 'O';
+            m[rock] = 'O';
         }
         let key = (m.clone(), dir);
         if let Some(&prev_i) = map_to_index.get(&key) {
-            m = std::mem::take(&mut maps[prev_i + (cycles - i) % (i - prev_i) - 1]);
+            m = Map2D::clone(&maps[prev_i + (cycles - i) % (i - prev_i) - 1]);
             break;
         }
         map_to_index.insert(key, i);
         maps.push(m.clone());
     }
-    Itertools::cartesian_product(0..w, 0..h)
-        .filter(|&(x, y)| m[y as usize][x as usize] == 'O')
-        .map(|(x, y)| h - y)
-        .sum::<i64>()
+    m.filter(|_, v| *v == 'O').map(|(p, _)| m.h - p.y).sum()
 }
 
 pub fn solve_1() -> i64 {
