@@ -29,11 +29,11 @@ pub fn solve_d(cycles: usize) -> i64 {
             m[start.1 as usize][start.0 as usize] = '.';
             m[end.1 as usize][end.0 as usize] = 'O';
         }
-        if let Some(&ni) = map_to_index.get(&(m.clone(), dir)) {
-            let skips = (cycles - i) / (i - ni);
+        if let Some(&prev_i) = map_to_index.get(&(m.clone(), dir)) {
+            let skips = (cycles - i) / (i - prev_i);
             if skips > 0 {
-                i += skips * (i - ni);
-                m = index_to_map.get(&ni).unwrap().clone();
+                i += skips * (i - prev_i);
+                m = index_to_map.get(&prev_i).unwrap().clone();
             }
         } else {
             map_to_index.insert((m.clone(), dir), i);
