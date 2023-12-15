@@ -9,7 +9,7 @@ pub fn solve(cycles: usize) -> i64 {
 
     let dirs = [(0, -1), (-1, 0), (0, 1), (1, 0)];
     let mut map_to_index = HashMap::new();
-    let mut maps: Vec<Vec<Vec<char>>> = vec![];
+    let mut maps = vec![];
 
     for i in 0..cycles {
         let dir = i % 4;
