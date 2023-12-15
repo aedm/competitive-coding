@@ -1,4 +1,4 @@
-use crate::utils::array2d::{IVec2D, Map2D};
+use crate::utils::array2d::{DIRS4, Map2D};
 use crate::utils::read_lines;
 use itertools::Itertools;
 use std::collections::HashMap;
@@ -12,11 +12,11 @@ pub fn solve(cycles: usize) -> i64 {
         let rocks = m
             .filter(|_, v| *v == 'O')
             .map(|(p, _)| p)
-            .sorted_by_key(|&c| c * -IVec2D::DIRS4[dir])
+            .sorted_by_key(|&c| c * -DIRS4[dir])
             .collect_vec();
         for mut rock in rocks {
             m[rock] = '.';
-            while let Some((c, '.')) = m.add_coord(rock, IVec2D::DIRS4[dir]) {
+            while let Some((c, '.')) = m.add_coord(rock, DIRS4[dir]) {
                 rock = c;
             }
             m[rock] = 'O';

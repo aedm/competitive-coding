@@ -7,25 +7,25 @@ pub struct IVec2D {
     pub y: i64,
 }
 
+pub const DIRS4: &'static [IVec2D] = &[
+    IVec2D { x: 0, y: -1 }, // north
+    IVec2D { x: -1, y: 0 }, // west
+    IVec2D { x: 0, y: 1 },  // south
+    IVec2D { x: 1, y: 0 },  // east
+];
+
+pub const DIRS8: &'static [IVec2D] = &[
+    IVec2D { x: 0, y: -1 }, // north
+    IVec2D { x: -1, y: -1 },
+    IVec2D { x: -1, y: 0 }, // west
+    IVec2D { x: -1, y: 1 },
+    IVec2D { x: 0, y: 1 }, // south
+    IVec2D { x: 1, y: 1 },
+    IVec2D { x: 1, y: 0 }, // east
+    IVec2D { x: 1, y: -1 },
+];
+
 impl IVec2D {
-    pub const DIRS4: &'static [Self] = &[
-        Self { x: 0, y: -1 }, // north
-        Self { x: -1, y: 0 }, // west
-        Self { x: 0, y: 1 },  // south
-        Self { x: 1, y: 0 },  // east
-    ];
-
-    pub const DIRS8: &'static [Self] = &[
-        Self { x: 0, y: -1 }, // north
-        Self { x: -1, y: -1 },
-        Self { x: -1, y: 0 }, // west
-        Self { x: -1, y: 1 },
-        Self { x: 0, y: 1 }, // south
-        Self { x: 1, y: 1 },
-        Self { x: 1, y: 0 }, // east
-        Self { x: 1, y: -1 },
-    ];
-
     pub fn new(x: i64, y: i64) -> Self {
         Self { x, y }
     }
