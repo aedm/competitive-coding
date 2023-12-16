@@ -11,23 +11,20 @@ pub fn solve(cycles: usize) -> i64 {
     for i in 0..cycles {
         let dir = DIRS4[i % 4];
         rocks.sort_by_key(|&c| c * -dir);
-        let mut new_rocks = Vec::with_capacity(rocks.len());
-        for mut rock in rocks {
-            m[rock] = b'.';
-            while let Some((c, b'.')) = m.add_coord(rock, dir) {
-                rock = c;
-            }
-            m[rock] = b'O';
-            new_rocks.push(rock);
-        }
-        rocks = new_rocks;
-        if i % 4 == 3 {
+        if i % 4 == 0 {
             if let Some(&pi) = rocks_indices.get(&rocks) {
-                rocks = Vec::clone(&history_of_rock[pi + (cycles - i + 3) / 4 % (i / 4 - pi) - 1]);
+                rocks = Vec::clone(&history_of_rock[pi + (cycles - i) / 4 % (i / 4 - pi)]);
                 break;
             }
             rocks_indices.insert(rocks.clone(), i / 4);
             history_of_rock.push(rocks.clone());
+        }
+        for mut rock in rocks.iter_mut() {
+            m[*rock] = b'.';
+            while let Some((c, b'.')) = m.add_coord(*rock, dir) {
+                *rock = c;
+            }
+            m[*rock] = b'O';
         }
     }
     rocks.iter().map(|p| m.h - p.y).sum()
