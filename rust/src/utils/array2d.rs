@@ -87,6 +87,14 @@ impl<T> IndexMut<IVec2D> for Map2D<T> {
 }
 
 impl<T: Clone> Map2D<T> {
+    pub fn from_map<K>(map: &Map2D<K>, f: impl Fn(&K) -> T) -> Self {
+        Self {
+            items: map.items.iter().map(f).collect(),
+            w: map.w,
+            h: map.h,
+        }
+    }
+
     pub fn iter(&self) -> impl Iterator<Item = (IVec2D, T)> + '_ {
         Itertools::cartesian_product(0..self.h, 0..self.w)
             .map(move |(y, x)| (IVec2D::new(x, y), self[IVec2D::new(x, y)].clone()))
