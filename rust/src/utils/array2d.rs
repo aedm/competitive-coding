@@ -73,6 +73,15 @@ impl Map2D<char> {
     }
 }
 
+impl Map2D<u8> {
+    pub fn from_text_u8(text: &[String]) -> Self {
+        let w = text[0].len() as i64;
+        let h = text.len() as i64;
+        let items = text.iter().flat_map(|l| l.bytes()).collect::<Vec<_>>();
+        Self { items, w, h }
+    }
+}
+
 impl<T> Index<IVec2D> for Map2D<T> {
     type Output = T;
     fn index(&self, index: IVec2D) -> &Self::Output {
