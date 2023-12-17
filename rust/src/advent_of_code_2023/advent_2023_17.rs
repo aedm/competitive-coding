@@ -3,7 +3,7 @@ use crate::utils::read_lines;
 use itertools::Itertools;
 use std::collections::VecDeque;
 
-fn solve_core(mins: usize, maxs: usize) -> i64 {
+fn solve(mins: usize, maxs: usize) -> i64 {
     let m = Map2D::from_text(&read_lines("advent_2023/17.txt"));
     let mut start_coord = IVec2D::new(0, 0);
     let mut end_coord = IVec2D::new(m.w - 1, m.h - 1);
@@ -27,10 +27,10 @@ fn solve_core(mins: usize, maxs: usize) -> i64 {
     (0..4).cartesian_product(0..maxs).map(|(d, t)| n[end_coord][d][t]).min().unwrap()
 }
 
-pub fn solve() -> i64 {
-    solve_core(0, 3)
+pub fn solve_1() -> i64 {
+    solve(0, 3)
 }
 
 pub fn solve_2() -> i64 {
-    solve_core(4, 10)
+    solve(4, 10)
 }
