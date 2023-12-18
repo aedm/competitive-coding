@@ -19,11 +19,11 @@ pub fn solve_inner(ins: &[(i64, usize)]) -> i64 {
         ps.push((p, d));
         p += DIRS4[d] * l;
     }
-    let out = [v(1, 0), v(0, 0), v(0, 0), v(0, 1)];
+    let outline = [v(1, 0), v(0, 0), v(0, 0), v(0, 1)];
     let s = area(&ps).signum();
     let mut d_prev = ps[ps.len() - 1].1;
     for (p, d) in ps.iter_mut() {
-        *p -= (out[*d] + out[d_prev]) * s;
+        *p -= (outline[*d] + outline[d_prev]) * s;
         d_prev = *d;
     }
     area(&ps)
