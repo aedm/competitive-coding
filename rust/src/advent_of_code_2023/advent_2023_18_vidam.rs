@@ -1,6 +1,5 @@
 use crate::utils::array2d::{v, IVec2D, DIRS4};
 use crate::utils::read_lines_split;
-use itertools::Itertools;
 use std::collections::HashMap;
 
 fn area(ps: &[(IVec2D, usize)]) -> i64 {
