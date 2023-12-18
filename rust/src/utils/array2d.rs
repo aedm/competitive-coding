@@ -1,7 +1,8 @@
 use itertools::Itertools;
 use std::ops::{Add, Index, IndexMut, Mul, Neg};
+use derive_more::{AddAssign, DivAssign, MulAssign, SubAssign};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Ord, PartialOrd, AddAssign, SubAssign, MulAssign, DivAssign)]
 pub struct IVec2D {
     pub x: i64,
     pub y: i64,
@@ -25,6 +26,10 @@ pub const DIRS8: &'static [IVec2D] = &[
     IVec2D { x: 1, y: -1 },
 ];
 
+pub fn v(x: i64, y: i64) -> IVec2D {
+    IVec2D::new(x, y)
+}
+
 impl IVec2D {
     pub fn new(x: i64, y: i64) -> Self {
         Self { x, y }
@@ -43,17 +48,31 @@ impl Neg for IVec2D {
     }
 }
 
-impl Mul for IVec2D {
+impl Mul<IVec2D> for IVec2D {
     type Output = Self;
     fn mul(self, rhs: Self) -> Self::Output {
         Self::new(self.x * rhs.x, self.y * rhs.y)
     }
 }
 
-impl Add for IVec2D {
+impl Mul<i64> for IVec2D {
+    type Output = Self;
+    fn mul(self, rhs: i64) -> Self::Output {
+        Self::new(self.x * rhs, self.y * rhs)
+    }
+}
+
+impl Add<IVec2D> for IVec2D {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
         Self::new(self.x + rhs.x, self.y + rhs.y)
+    }
+}
+
+impl Add<(i64, i64)> for IVec2D {
+    type Output = Self;
+    fn add(self, rhs: (i64, i64)) -> Self::Output {
+        Self::new(self.x + rhs.0, self.y + rhs.1)
     }
 }
 

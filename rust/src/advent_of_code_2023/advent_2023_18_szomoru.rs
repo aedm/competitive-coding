@@ -1,11 +1,10 @@
 use crate::utils::array2d::{IVec2D, Map2D, DIRS4};
-use crate::utils::{read_lines, read_lines_split};
+use crate::utils::read_lines_split;
 use itertools::Itertools;
 use itertools::MinMaxResult::MinMax;
 use std::collections::{HashMap, HashSet, VecDeque};
-use std::fmt::Debug;
 
-pub fn solve_1() -> impl Debug {
+pub fn solve_1() -> usize {
     let mut m = HashSet::new();
     let mut p = IVec2D::new(0, 0);
     m.insert(p);
