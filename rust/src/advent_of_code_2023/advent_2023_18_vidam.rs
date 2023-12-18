@@ -12,10 +12,10 @@ fn area(ps: &[(IVec2D, usize)]) -> i64 {
     a / 2
 }
 
-pub fn solve_inner(ins: &[(i64, usize)]) -> i64 {
+pub fn solve_inner(ins: impl Iterator<Item = (i64, usize)>) -> i64 {
     let mut p = v(0, 0);
     let mut ps = vec![];
-    for &(l, d) in ins {
+    for (l, d) in ins {
         ps.push((p, d));
         p += DIRS4[d] * l;
     }
@@ -31,24 +31,18 @@ pub fn solve_inner(ins: &[(i64, usize)]) -> i64 {
 
 pub fn solve_1() -> i64 {
     let ds = HashMap::from([(b'R', 3), (b'L', 1), (b'U', 0), (b'D', 2)]);
-    let l = read_lines_split("advent_2023/18.txt", &[' '])
-        .iter()
-        .map(|l| {
-            let a = l[1].parse::<i64>().unwrap();
-            (a, ds[&l[0].as_bytes()[0]])
-        })
-        .collect_vec();
-    solve_inner(&l)
+    let l = read_lines_split("advent_2023/18.txt", &[' ']).into_iter().map(|l| {
+        let len = l[1].parse::<i64>().unwrap();
+        (len, ds[&l[0].as_bytes()[0]])
+    });
+    solve_inner(l)
 }
 
 pub fn solve_2() -> i64 {
     let ds = HashMap::from([(b'0', 3), (b'1', 2), (b'2', 1), (b'3', 0)]);
-    let l = read_lines_split("advent_2023/18.txt", &[' '])
-        .iter()
-        .map(|l| {
-            let a = i64::from_str_radix(&l[2][2..7], 16).unwrap();
-            (a, ds[&l[2].as_bytes()[7]])
-        })
-        .collect_vec();
-    solve_inner(&l)
+    let l = read_lines_split("advent_2023/18.txt", &[' ']).into_iter().map(|l| {
+        let len = i64::from_str_radix(&l[2][2..7], 16).unwrap();
+        (len, ds[&l[2].as_bytes()[7]])
+    });
+    solve_inner(l)
 }
