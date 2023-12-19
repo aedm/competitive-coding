@@ -1,9 +1,8 @@
-use crate::utils::{read_lines, read_lines_split};
+use crate::utils::read_lines;
 use itertools::Itertools;
 use regex::Regex;
 use std::array::from_fn;
-use std::collections::{HashMap, HashSet, VecDeque};
-use std::fmt::Debug;
+use std::collections::{HashMap, VecDeque};
 
 type Rules = HashMap<String, Vec<(Option<usize>, bool, i64, String)>>;
 
