@@ -17,3 +17,4 @@ pub mod advent_2023_16;
 pub mod advent_2023_17;
 pub mod advent_2023_18_szomoru;
 pub mod advent_2023_18_vidam;
+pub mod advent_2023_19;
