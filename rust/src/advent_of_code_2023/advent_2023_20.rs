@@ -17,18 +17,17 @@ pub fn solve() -> impl Debug {
         .into_iter()
         .map(|line| {
             let p = line.split(" -> ").collect_vec();
-            let v = p[0][1..].to_string();
-            labels.insert(v.clone());
             let targets = p[1].split(", ").map(|s| s.to_string()).collect_vec();
             for t in &targets {
                 labels.insert(t.clone());
             }
-            let module = match p[0].chars().nth(0).unwrap() {
-                '%' => Module::FlipFlop(false),
-                '&' => Module::Conjunction(0, 0),
-                _ => Module::Broadcast,
+            let (label, module) = match p[0].chars().nth(0).unwrap() {
+                '%' => (&p[0][1..], Module::FlipFlop(false)),
+                '&' => (&p[0][1..], Module::Conjunction(0, 0)),
+                _ => (p[0], Module::Broadcast),
             };
-            (v, (module, targets))
+            labels.insert(label.to_string());
+            (label.to_string(), (module, targets))
         })
         .collect::<HashMap<_, _>>();
 
@@ -58,7 +57,7 @@ pub fn solve() -> impl Debug {
     let mut cycles = vec![None; state.len()];
 
     'l: for n in 1usize.. {
-        let mut queue = VecDeque::from([(mods["roadcaster"], false, 0)]);
+        let mut queue = VecDeque::from([(mods["broadcaster"], false, 0)]);
         while let Some((i, input, source)) = queue.pop_front() {
             if n > 0 && vs.contains(&source) && input && cycles[source].is_none() {
                 cycles[source] = Some(n);
@@ -68,26 +67,24 @@ pub fn solve() -> impl Debug {
             } else if vs.iter().all(|vi| cycles[*vi].is_some()) {
                 break 'l;
             }
-            let output = {
-                let (module, targets) = &mut state[i];
-                match (module, input) {
-                    (Module::FlipFlop(s), false) => {
-                        *s = !*s;
-                        *s
-                    }
-                    (Module::Conjunction(value, mask), true) => {
-                        *value |= 1 << source;
-                        *value != *mask
-                    }
-                    (Module::Conjunction(value, mask), false) => {
-                        *value &= !(1 << source);
-                        *value != *mask
-                    }
-                    (Module::Broadcast, _) => input,
-                    _ => continue,
+            let (module, targets) = &mut state[i];
+            let output = match (module, input) {
+                (Module::FlipFlop(s), false) => {
+                    *s = !*s;
+                    *s
                 }
+                (Module::Conjunction(value, mask), true) => {
+                    *value |= 1 << source;
+                    *value != *mask
+                }
+                (Module::Conjunction(value, mask), false) => {
+                    *value &= !(1 << source);
+                    *value != *mask
+                }
+                (Module::Broadcast, _) => input,
+                _ => continue,
             };
-            for t in &state[i].1 {
+            for t in targets {
                 queue.push_back((*t, output, i));
             }
         }
