@@ -1,4 +1,4 @@
-use crate::utils::array2d::{v, Map2D, DIRS4};
+use crate::utils::array2d::{v, Map2D};
 use crate::utils::read_lines;
 use itertools::Itertools;
 
