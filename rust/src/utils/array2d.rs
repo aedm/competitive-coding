@@ -101,25 +101,20 @@ impl Map2D<u8> {
     }
 }
 
-impl<T> Index<IVec2D> for Map2D<T> {
-    type Output = T;
-    fn index(&self, index: IVec2D) -> &Self::Output {
-        &self.items[(index.y * self.w + index.x) as usize]
-    }
-}
-
-impl<T> IndexMut<IVec2D> for Map2D<T> {
-    fn index_mut(&mut self, index: IVec2D) -> &mut Self::Output {
-        &mut self.items[(index.y * self.w + index.x) as usize]
-    }
-}
-
 impl<T: Clone> Map2D<T> {
     pub fn from_map<K>(map: &Map2D<K>, f: impl Fn(&K) -> T) -> Self {
         Self {
             items: map.items.iter().map(f).collect(),
             w: map.w,
             h: map.h,
+        }
+    }
+
+    pub fn new(w: i64, h: i64, item: T) -> Self {
+        Self {
+            items: vec![item; (w * h) as usize],
+            w,
+            h,
         }
     }
 
@@ -137,5 +132,18 @@ impl<T: Clone> Map2D<T> {
     pub fn add_coord(&self, c: IVec2D, d: IVec2D) -> Option<(IVec2D, T)> {
         let p = c + d;
         (p.x >= 0 && p.x < self.w && p.y >= 0 && p.y < self.h).then(|| (p, self[p].clone()))
+    }
+}
+
+impl<T> Index<IVec2D> for Map2D<T> {
+    type Output = T;
+    fn index(&self, index: IVec2D) -> &Self::Output {
+        &self.items[(index.y * self.w + index.x) as usize]
+    }
+}
+
+impl<T> IndexMut<IVec2D> for Map2D<T> {
+    fn index_mut(&mut self, index: IVec2D) -> &mut Self::Output {
+        &mut self.items[(index.y * self.w + index.x) as usize]
     }
 }
