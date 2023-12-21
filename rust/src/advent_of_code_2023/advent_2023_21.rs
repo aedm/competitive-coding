@@ -45,5 +45,5 @@ pub fn solve(steps: i64) -> i64 {
             }
         }
     }
-    acc - 4 * ((steps + 1) / 2) - 3 * ((steps + 1) % 2)
+    acc - (steps + 1) * 2 - (steps + 1) % 2
 }
