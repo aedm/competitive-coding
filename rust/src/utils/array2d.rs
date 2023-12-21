@@ -1,5 +1,5 @@
 use itertools::Itertools;
-use std::ops::{Add, Index, IndexMut, Mul, Neg};
+use std::ops::{Add, Index, IndexMut, Mul, Neg, Rem};
 use derive_more::{AddAssign, DivAssign, MulAssign, SubAssign};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Ord, PartialOrd, AddAssign, SubAssign, MulAssign, DivAssign)]
@@ -76,6 +76,13 @@ impl Add<(i64, i64)> for IVec2D {
     }
 }
 
+impl Rem<IVec2D> for IVec2D {
+    type Output = Self;
+    fn rem(self, rhs: Self) -> Self::Output {
+        Self::new(self.x % rhs.x, self.y % rhs.y)
+    }
+}
+
 #[derive(Debug, Clone, Hash, PartialEq, Eq, Default)]
 pub struct Map2D<T> {
     pub items: Vec<T>,
@@ -118,6 +125,14 @@ impl<T: Clone> Map2D<T> {
         }
     }
 
+    pub fn from_fn(w: i64, h: i64, f: impl Fn(IVec2D) -> T) -> Self {
+        Self {
+            items: (0..w * h).map(|i| f(IVec2D::new(i % w, i / w))).collect(),
+            w,
+            h,
+        }
+    }
+
     pub fn iter(&self) -> impl Iterator<Item = (IVec2D, T)> + '_ {
         Itertools::cartesian_product(0..self.h, 0..self.w)
             .map(move |(y, x)| (IVec2D::new(x, y), self[IVec2D::new(x, y)].clone()))
@@ -132,6 +147,10 @@ impl<T: Clone> Map2D<T> {
     pub fn add_coord(&self, c: IVec2D, d: IVec2D) -> Option<(IVec2D, T)> {
         let p = c + d;
         (p.x >= 0 && p.x < self.w && p.y >= 0 && p.y < self.h).then(|| (p, self[p].clone()))
+    }
+
+    pub fn size(&self) -> IVec2D {
+        IVec2D::new(self.w, self.h)
     }
 }
 
