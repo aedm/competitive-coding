@@ -1,3 +1,4 @@
+use std::collections::VecDeque;
 use itertools::Itertools;
 use std::ops::{Add, Index, IndexMut, Mul, Neg, Rem};
 use derive_more::{AddAssign, DivAssign, MulAssign, SubAssign};
@@ -151,6 +152,20 @@ impl<T: Clone> Map2D<T> {
 
     pub fn size(&self) -> IVec2D {
         IVec2D::new(self.w, self.h)
+    }
+
+    pub fn flood4(&mut self, start: IVec2D, f: impl Fn(IVec2D, &T, &T) -> Option<T>) {
+        let mut queue = VecDeque::from([start]);
+        while let Some(c) = queue.pop_front() {
+            for d in DIRS4 {
+                if let Some((nc, t)) = self.add_coord(c, *d) {
+                    if let Some(x) = f(nc, &t, &self[c]) {
+                        queue.push_back(nc);
+                        self[nc] = x;
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -1,7 +1,6 @@
 use crate::utils::array2d::{v, Map2D, DIRS4};
 use crate::utils::read_lines;
 use itertools::Itertools;
-use std::collections::VecDeque;
 
 pub fn solve_1() -> i64 {
     solve(64)
@@ -23,19 +22,9 @@ pub fn solve(steps: i64) -> i64 {
         });
         let mut distance = Map2D::from_map(&big_map, |_| None);
         distance[v(0, 0)] = Some(0);
-
-        let mut queue = VecDeque::from([v(0, 0)]);
-        while let Some(c) = queue.pop_front() {
-            for d in DIRS4 {
-                if let Some((nc, '.')) = big_map.add_coord(c, *d) {
-                    if distance[nc].is_none() {
-                        distance[nc] = Some(distance[c].unwrap() + 1);
-                        queue.push_back(nc);
-                    }
-                }
-            }
-        }
-
+        distance.flood4(v(0, 0), |c, a, prev| {
+            (big_map[c] == '.' && a.is_none()).then(|| Some(prev.unwrap() + 1))
+        });
         for (x, y) in (0..big_map.w - 1).cartesian_product(0..big_map.h - 1) {
             if (x + y) % 2 == steps % 2 {
                 if let Some(c) = distance[v(x, y)] {
