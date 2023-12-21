@@ -154,8 +154,8 @@ impl<T: Clone> Map2D<T> {
         IVec2D::new(self.w, self.h)
     }
 
-    pub fn flood4(&mut self, start: IVec2D, f: impl Fn(IVec2D, &T, &T) -> Option<T>) {
-        let mut queue = VecDeque::from([start]);
+    pub fn flood4(&mut self, start: Vec<IVec2D>, f: impl Fn(IVec2D, &T, &T) -> Option<T>) {
+        let mut queue = VecDeque::from(start);
         while let Some(c) = queue.pop_front() {
             for d in DIRS4 {
                 if let Some((nc, t)) = self.add_coord(c, *d) {

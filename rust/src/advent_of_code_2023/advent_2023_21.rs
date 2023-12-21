@@ -14,7 +14,6 @@ pub fn solve(steps: i64) -> i64 {
     let mut m = Map2D::from_text(&read_lines("advent_2023/21.txt"));
     let s = m.filter(|_, v| *v == 'S').map(|(p, _)| p).next().unwrap();
     m[s] = '.';
-
     let mut acc = 0;
     for dir in [v(1, 1), v(-1, 1), v(1, -1), v(-1, -1)] {
         let mut big_map = Map2D::from_fn(m.w * 2 + 1, m.h * 2 + 1, |p| {
@@ -22,7 +21,7 @@ pub fn solve(steps: i64) -> i64 {
         });
         let mut distance = Map2D::from_map(&big_map, |_| None);
         distance[v(0, 0)] = Some(0);
-        distance.flood4(v(0, 0), |c, a, prev| {
+        distance.flood4(vec![v(0, 0)], |c, a, prev| {
             (big_map[c] == '.' && a.is_none()).then(|| Some(prev.unwrap() + 1))
         });
         for (x, y) in (0..big_map.w - 1).cartesian_product(0..big_map.h - 1) {
