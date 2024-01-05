@@ -48,9 +48,7 @@ pub fn solve_1() -> impl Debug {
         (0..m.w).find(|&x| m[v(x, m.h - 1)] == '.').unwrap(),
         m.h - 1,
     );
-    let l = dfs(&m, &mut HashSet::new(), s, 0, e).unwrap();
-
-    l
+    dfs(&m, &mut HashSet::new(), s, 0, e).unwrap()
 }
 
 fn dfs2(
@@ -70,7 +68,7 @@ fn dfs2(
         if visited.contains(&node) {
             continue;
         }
-        if let Some(l) = dfs2(paths, visited, node, len + plen, end, depth+1) {
+        if let Some(l) = dfs2(paths, visited, node, len + plen, end, depth + 1) {
             if result.is_none() || l > result.unwrap() {
                 result = Some(l);
             }
@@ -128,11 +126,8 @@ pub fn solve_2() -> impl Debug {
                 l += 1;
                 pd = (0..4)
                     .find(|&d| {
-                        if d == (pd + 2) % 4 {
-                            return false;
-                        }
                         if let Some((_, t)) = m.add_coord(pc, DIRS4[d]) {
-                            return t != '#';
+                            return t != '#' && d == (pd + 2) % 4;
                         }
                         false
                     })
@@ -141,5 +136,5 @@ pub fn solve_2() -> impl Debug {
         }
     }
 
-    dfs2(&paths, &mut HashSet::new(), s, 0, e,0).unwrap()
+    dfs2(&paths, &mut HashSet::new(), s, 0, e, 0).unwrap()
 }
