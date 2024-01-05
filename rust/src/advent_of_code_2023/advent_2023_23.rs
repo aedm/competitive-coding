@@ -80,7 +80,7 @@ fn dfs2(
     result
 }
 
-pub fn solve() -> impl Debug {
+pub fn solve_2() -> impl Debug {
     let mut m = Map2D::from_text(&read_lines("advent_2023/23.txt"));
     let mut nodes = m
         .filter(|c, v| {
