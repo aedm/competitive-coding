@@ -21,7 +21,8 @@ pub fn solve() -> usize {
         }
     }
     let graph = b.into_graph();
-    let g1 = (1..n.len()).filter(|i| edmondskarp(&graph, n[0], n[*i], |_| 1).0 == 3).count();
 
-    g1 * (n.len() - g1)
+    // Parsing over, let's solve the problem.
+    let c = (1..n.len()).filter(|i| edmondskarp(&graph, n[0], n[*i], |_| 1).0 == 3).count();
+    c * (n.len() - c)
 }
