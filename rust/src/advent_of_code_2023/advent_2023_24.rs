@@ -53,8 +53,8 @@ pub fn solve_1() -> impl Debug {
 pub fn solve_2() -> impl Debug {
     let s = read_input();
 
-    // (p-p[n]) x (v-v[n]) = 0
-    // For "p x v" to be eliminated, subtract equations you get from p[n] and p[m].
+    // (p-p[n]) × (v-v[n]) = 0
+    // For p×v to be eliminated, subtract equations you get from p[n] and p[m].
     // Three hailstones lead to a simple linear equation system with 6 variables and 6 equations.
     let (p1x, p1y, p1z) = (s[1][0] - s[0][0], s[1][1] - s[0][1], s[1][2] - s[0][2]);
     let (v1x, v1y, v1z) = (s[1][3] - s[0][3], s[1][4] - s[0][4], s[1][5] - s[0][5]);
