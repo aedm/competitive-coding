@@ -23,6 +23,7 @@ dotenv = "0.15.0"
 itertools = "0.12"
 num = "0.4.1"
 derive_more = "0.99.17"
+mathru = "0.15"
 
 #[profile.release]
 #strip = true
