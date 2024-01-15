@@ -53,6 +53,9 @@ pub fn solve_1() -> impl Debug {
 pub fn solve_2() -> impl Debug {
     let s = read_input();
 
+    // (p-p[n]) x (v-v[n]) = 0
+    // For "p x v" to be eliminated, subtract equations you get from p[n] and p[m].
+    // Three hailstones lead to a simple linear equation system with 6 variables and 6 equations.
     let (p1x, p1y, p1z) = (s[1][0] - s[0][0], s[1][1] - s[0][1], s[1][2] - s[0][2]);
     let (v1x, v1y, v1z) = (s[1][3] - s[0][3], s[1][4] - s[0][4], s[1][5] - s[0][5]);
     let (p2x, p2y, p2z) = (s[2][0] - s[0][0], s[2][1] - s[0][1], s[2][2] - s[0][2]);
@@ -74,6 +77,7 @@ pub fn solve_2() -> impl Debug {
             s[0][2] * s[0][3] - s[0][0] * s[0][5] + s[2][0] * s[2][5] - s[2][2] * s[2][3];
             s[0][2] * s[0][4] - s[0][1] * s[0][5] + s[2][1] * s[2][5] - s[2][2] * s[2][4]];
 
+    // Solve the linear equation system.
     let r: Vector<f64> = a.solve(&b).unwrap();
     (r[0].round() + r[1].round() + r[2].round()) as i64
 }
