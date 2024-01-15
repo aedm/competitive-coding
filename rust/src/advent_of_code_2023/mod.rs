@@ -23,3 +23,4 @@ pub mod advent_2023_21;
 pub mod advent_2023_22;
 pub mod advent_2023_23;
 pub mod advent_2023_24;
+pub mod advent_2023_25;
